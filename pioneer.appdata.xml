@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id type="desktop">pioneer.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <summary>A game of lonely space adventure</summary>
+  <name>Pioneer</name>
+  <project_license>GPL-3.0 and CC-BY-SA and Bitstream Vera and Public Domain</project_license>
+  <categories>
+   <category>Games</category>
+   <category>ActionGame</category>
+   <category>Simulation</category>
+  </categories>
+  <description>
+    <p>
+       Pioneer is a space adventure game set in the Milky Way galaxy at the turn of
+       the 31st century.
+    </p>  
+    <p>
+      The game is open-ended, and you are free to explore the millions of star
+      systems in the game. You can land on planets, slingshot past gas giants, and
+      burn yourself to a crisp flying between binary star systems. You can try your
+      hand at piracy, make your fortune trading between systems, or do missions for
+      the various factions fighting for power, freedom or self-determination.
+    </p>
+  </description>
+  <url type="homepage">http://pioneerspacesim.net/</url>
+  <screenshots>
+    <screenshot type="default">https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer1.png</screenshot>
+    <screenshot>https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer2.png</screenshot>
+    <screenshot>https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer3.png</screenshot>
+  </screenshots>
+  <updatecontact>https://github.com/pioneerspacesim/pioneer/issues</updatecontact>
+</component>

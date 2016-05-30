@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Pioneer
+Comment=A game of lonely space adventure
+Exec=env force_s3tc_enable=true pioneer
+StartupNotify=false
+Terminal=false
+Type=Application
+Icon=/usr/share/icons/pioneer/pioneer.ico
+Categories=Game;AdventureGame;ActionGame;Simulation;
+
