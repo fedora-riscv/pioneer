@@ -5,14 +5,10 @@
 # - MINIZ_NO_ARCHIVE_WRITING_APIS
 # - MINIZ_NO_ZLIB_COMPATIBLE_NAMES
 
-## Hardened_builds flags look break script of assimp's version checking
-## Flags set manually
-%undefine _hardened_build
-
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20160512
-Release:       3%{?dist}
+Release:       4%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -40,7 +36,7 @@ BuildRequires: pkgconfig(SDL2_image)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
 #BuildRequires: pkgconfig(lua)
-BuildRequires: pkgconfig(assimp)
+BuildRequires: assimp-devel >= 3.2
 BuildRequires: pkgconfig(gl)
 BuildRequires: miniz-devel
 BuildRequires: NaturalDocs
@@ -138,9 +134,11 @@ sed -e 's|naturaldocs|NaturalDocs|g' -i Makefile.am
 %configure --disable-silent-rules --with-ccache --without-strip \
  --with-version --with-extra-version --without-extra-warnings \
  --without-thirdparty --without-external-liblua --with-no-optimise \
- PIONEER_DATA_DIR=%{_datadir}/%{name}
+ PIONEER_DATA_DIR=%{_datadir}/%{name} \
+ ASSIMP_CFLAGS="-I%{_includedir} -fPIC" ASSIMP_LIBS=" -lassimp"
 
-make %{?_smp_mflags} V=1 OPTIMISE="-Wl,-z,relro -fPIC -pie -Wl,-z,now"
+
+make %{?_smp_mflags} V=1 OPTIMISE=""
 
 ## Build documentation
 make codedoc
@@ -260,6 +258,10 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Thu Jun 02 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-4
+- hardened_builds flags enabled
+- assimp libraries linked manually
+
 * Sat May 28 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-3
 - Unbundle DejaVuSans.ttf DejaVuSansMono.ttf wqy-microhei.ttc font files
 - Made Inpionata Orbiteer-Bold PionilliumText22L-Medium fonts sub-packages
