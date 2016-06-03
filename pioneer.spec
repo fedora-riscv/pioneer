@@ -8,7 +8,7 @@
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20160512
-Release:       4%{?dist}
+Release:       5%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -127,6 +127,13 @@ find . -type f -name "*.png" -exec convert {} -strip {} \;
 
 ## Set NaturalDocs name
 sed -e 's|naturaldocs|NaturalDocs|g' -i Makefile.am
+
+%ifarch aarch64
+sed -e '/^SUBDIRS/s/ profiler//' -i.bak contrib/Makefile.am
+sed -e '/libjson.a/s| \\|| ; /libprofiler.a/d' -i.p.bak src/Makefile.am
+sed -e '/contrib\/profiler/d' -i.p.bak configure.ac
+sed -e 's/defined(__arm__)/(& || defined(__aarch64__))/' -i.bak contrib/profiler/Profiler.h
+%endif
 
 %build
 ./bootstrap
@@ -258,6 +265,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Thu Jun 02 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-5
+- Patched for aarch64 build
+
 * Thu Jun 02 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-4
 - hardened_builds flags enabled
 - assimp libraries linked manually
