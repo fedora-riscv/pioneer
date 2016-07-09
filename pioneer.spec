@@ -7,8 +7,8 @@
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20160512
-Release:       5%{?dist}
+Version:       20160701
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -141,8 +141,7 @@ sed -e 's/defined(__arm__)/(& || defined(__aarch64__))/' -i.bak contrib/profiler
 %configure --disable-silent-rules --with-ccache --without-strip \
  --with-version --with-extra-version --without-extra-warnings \
  --without-thirdparty --without-external-liblua --with-no-optimise \
- PIONEER_DATA_DIR=%{_datadir}/%{name} \
- ASSIMP_CFLAGS="-I%{_includedir} -fPIC" ASSIMP_LIBS=" -lassimp"
+ PIONEER_DATA_DIR=%{_datadir}/%{name}
 
 
 make %{?_smp_mflags} V=1 OPTIMISE=""
@@ -265,6 +264,12 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org>  20160701-1
+- Update to release 20160701
+
+* Sun Jun 12 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-6
+- Patched for EXTRA_CXXFLAGS
+
 * Thu Jun 02 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-5
 - Patched for aarch64 build
 

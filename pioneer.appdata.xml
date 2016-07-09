@@ -25,9 +25,15 @@
   </description>
   <url type="homepage">http://pioneerspacesim.net/</url>
   <screenshots>
-    <screenshot type="default">https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer1.png</screenshot>
-    <screenshot>https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer2.png</screenshot>
-    <screenshot>https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer3.png</screenshot>
+    <screenshot type="default">
+     <image>https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer1.png</image>
+    </screenshot>
+    <screenshot>
+     <image>https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer2.png<image>
+    </screenshot>
+    <screenshot>
+     <image>https://sagitter.fedorapeople.org/pioneer-screenshots/pioneer3.png<image>
+    </screenshot>
   </screenshots>
-  <updatecontact>https://github.com/pioneerspacesim/pioneer/issues</updatecontact>
+  <updatecontact>sagitter_at_fedoraproject.org</updatecontact>
 </component>
