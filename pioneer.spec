@@ -8,7 +8,7 @@
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20160701
-Release:       1%{?dist}
+Release:       2%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -264,6 +264,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org>  20160701-2
+- Fix typos in the appdata file
+
 * Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org>  20160701-1
 - Update to release 20160701
 
