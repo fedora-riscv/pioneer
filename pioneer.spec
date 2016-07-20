@@ -7,8 +7,8 @@
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20160701
-Release:       2%{?dist}
+Version:       20160710
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -16,7 +16,7 @@ Release:       2%{?dist}
 License:       GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
 Group:         Amusements/Games
 URL:           http://pioneerspacesim.net/
-Source0:       https://github.com/pioneerspacesim/pioneer/archive/20160512.tar.gz#/%{name}-%{version}.tar.gz
+Source0:       https://github.com/pioneerspacesim/pioneer/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
 
@@ -264,6 +264,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Tue Jul 19 2016 Ben Rosser <rosser.bjr@gmail.com> 20160710-1
+- Update to latest release
+
 * Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org>  20160701-2
 - Fix typos in the appdata file
 
