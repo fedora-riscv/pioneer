@@ -16,7 +16,7 @@ Release:       1%{?dist}
 License:       GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
 Group:         Amusements/Games
 URL:           http://pioneerspacesim.net/
-Source0:       https://github.com/pioneerspacesim/pioneer/archive/20160512.tar.gz#/%{name}-%{version}.tar.gz
+Source0:       https://github.com/pioneerspacesim/pioneer/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
 
