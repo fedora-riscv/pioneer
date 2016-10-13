@@ -7,7 +7,7 @@
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20160814
+Version:       20160907
 Release:       1%{?dist}
 
 ## Main license: GPLv3
@@ -264,6 +264,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Thu Oct 13 2016 Jon Ciesla <limburgher@gmail.com> 20160907-1
+- 20160907
+
 * Sun Aug 14 2016 Antonio Trande <sagitterATfedoraproject.org>  20160814-1
 - Update to the version 20160814
 
