@@ -7,7 +7,7 @@
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20160907
+Version:       20161022
 Release:       1%{?dist}
 
 ## Main license: GPLv3
@@ -264,6 +264,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Mon Oct 24 2016 Jon Ciesla <limburgher@gmail.com> 20161022-1
+- 20161022
+
 * Thu Oct 13 2016 Jon Ciesla <limburgher@gmail.com> 20160907-1
 - 20160907
 
