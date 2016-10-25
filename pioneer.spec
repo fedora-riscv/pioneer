@@ -131,7 +131,7 @@ sed -e 's|naturaldocs|NaturalDocs|g' -i Makefile.am
 # https://github.com/pioneerspacesim/pioneer/issues/3846
 %ifarch aarch64
 sed -e '/^SUBDIRS/s/ profiler//' -i.bak contrib/Makefile.am
-sed -e '/libprofiler.a/d; $$!N; /libprofiler.a$$/s| \\||; P; D' -i.p.bak src/Makefile.am
+sed -e '/libprofiler.a/d; $!N; /libprofiler.a$/s| \\||; P; D' -i.p.bak src/Makefile.am
 sed -e '/contrib\/profiler/d' -i.p.bak configure.ac
 sed -e 's/defined(__arm__)/(& || defined(__aarch64__))/' -i.bak contrib/profiler/Profiler.h
 %endif
