@@ -1,3 +1,6 @@
+# https://github.com/pioneerspacesim/pioneer/issues/3846
+ExclusiveArch: %{ix86} x86_64
+
 ## This package uses an own miniz.h file.
 ## Upstream: taken from http://miniz.googlecode.com/svn/trunk/miniz.c. I've cut this into
 ## header and implementation files and disabled (via define) some interfaces that
@@ -8,7 +11,7 @@
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20161022
-Release:       2%{?dist}
+Release:       3%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -127,14 +130,6 @@ find . -type f -name "*.png" -exec convert {} -strip {} \;
 
 ## Set NaturalDocs name
 sed -e 's|naturaldocs|NaturalDocs|g' -i Makefile.am
-
-# https://github.com/pioneerspacesim/pioneer/issues/3846
-%ifarch aarch64
-sed -e '/^SUBDIRS/s/ profiler//' -i.bak contrib/Makefile.am
-sed -e '/libprofiler.a/d; $!N; /libprofiler.a$/s| \\||; P; D' -i.p.bak src/Makefile.am
-sed -e '/contrib\/profiler/d' -i.p.bak configure.ac
-sed -e 's/defined(__arm__)/(& || defined(__aarch64__))/' -i.bak contrib/profiler/Profiler.h
-%endif
 
 %build
 ./bootstrap
@@ -265,6 +260,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Wed Oct 26 2016 Antonio Trande <sagitterATfedoraproject.org> 20161022-3
+- Set ExclusiveArch
+
 * Tue Oct 25 2016 Antonio Trande <sagitterATfedoraproject.org> 20161022-2
 - 'sed' patch for AARCH64 builds
 
