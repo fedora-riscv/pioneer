@@ -10,8 +10,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20161022
-Release:       3%{?dist}
+Version:       20161028
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -260,6 +260,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Mon Oct 31 2016 Antonio Trande <sagitterATfedoraproject.org>  20161028-1
+- Update to the version 20161028 (Bug fixes)
+
 * Wed Oct 26 2016 Antonio Trande <sagitterATfedoraproject.org> 20161022-3
 - Set ExclusiveArch
 
