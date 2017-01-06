@@ -6,6 +6,6 @@ Exec=env force_s3tc_enable=true pioneer
 StartupNotify=false
 Terminal=false
 Type=Application
-Icon=/usr/share/icons/hicolor/32x32/apps/pioneer-32x32.png
+Icon=/usr/share/icons/hicolor/64x64/apps/pioneer-64x64.png
 Categories=Game;AdventureGame;ActionGame;Simulation;
 

@@ -11,7 +11,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20161129
-Release:       2%{?dist}
+Release:       3%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -260,6 +260,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Fri Jan 06 2017 Antonio Trande <sagitterATfedoraproject.org>  20161129-3
+- Use icon with size 64x64
+
 * Fri Jan 06 2017 Antonio Trande <sagitterATfedoraproject.org>  20161129-2
 - Set desktop icon
 
