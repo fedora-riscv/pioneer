@@ -40,7 +40,8 @@ BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
 #BuildRequires: pkgconfig(lua)
 BuildRequires: assimp-devel >= 3.2
-BuildRequires: pkgconfig(gl)
+#BuildRequires: pkgconfig(gl)
+BuildRequires: mesa-libGLU-devel
 BuildRequires: miniz-devel
 BuildRequires: NaturalDocs
 BuildRequires: desktop-file-utils
