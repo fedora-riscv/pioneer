@@ -10,7 +10,7 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20170304
+Version:       20170415
 Release:       1%{?dist}
 
 ## Main license: GPLv3
@@ -261,6 +261,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Mon Apr 17 2017 Jon Ciesla <limburgher@gmail.com> 20170415-1
+- 20170415
+
 * Mon Mar 06 2017 Jon Ciesla <limburgher@gmail.com> 20170304-1
 - 20170304
 
