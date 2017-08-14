@@ -10,8 +10,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20170415
-Release:       3%{?dist}
+Version:       20170813
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -261,13 +261,16 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Mon Aug 14 2017 Jon Ciesla <limburgher@gmail.com> 20170813-1
+- 20170813
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20170415-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20170415-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
-* Mon Apr 17 2017 Jon Ciesla <limburgher@gmail.com> 20170415-1
+* Mon Apr 17 2017 Gwyn Ciesla <limburgher@gmail.com> 20170415-1
 - 20170415
 
 * Mon Mar 06 2017 Jon Ciesla <limburgher@gmail.com> 20170304-1
