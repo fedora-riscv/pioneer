@@ -10,7 +10,7 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20170813
+Version:       20170827
 Release:       1%{?dist}
 
 ## Main license: GPLv3
@@ -261,6 +261,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Sun Aug 27 2017 Antonio Trande <sagitterATfedoraproject.org>  20170827-1
+- Update to 20170827
+
 * Mon Aug 14 2017 Jon Ciesla <limburgher@gmail.com> 20170813-1
 - 20170813
 
