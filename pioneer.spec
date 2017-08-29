@@ -11,7 +11,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20170827
-Release:       1%{?dist}
+Release:       2%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -118,7 +118,7 @@ PionilliumText22L Medium font file based on Titillium.
 
 ## Strip all .png files 
 ## 'iCCP: known incorrect sRGB profile' warnings
-find . -type f -name "*.png" -exec convert {} -strip {} \;
+# find . -type f -name "*.png" -exec convert {} -strip {} \;
 
 ## Pioneer does not work with Lua 5.3.2
 ## We cannot unbundle internal Lua yet
@@ -261,6 +261,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Tue Aug 29 2017 Antonio Trande <sagitterATfedoraproject.org>  20170827-2
+- Exclude stripping of PNG files (bz#1486399)
+
 * Sun Aug 27 2017 Antonio Trande <sagitterATfedoraproject.org>  20170827-1
 - Update to 20170827
 
