@@ -10,8 +10,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20170827
-Release:       2%{?dist}
+Version:       20171001
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -261,6 +261,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Sun Oct 01 2017 Antonio Trande <sagitterATfedoraproject.org>  20171001-1
+- Update to 20171001
+
 * Tue Aug 29 2017 Antonio Trande <sagitterATfedoraproject.org>  20170827-2
 - Exclude stripping of PNG files (bz#1486399)
 
