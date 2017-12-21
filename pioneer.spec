@@ -11,7 +11,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20171001
-Release:       1%{?dist}
+Release:       2%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -19,7 +19,7 @@ Release:       1%{?dist}
 License:       GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
 Group:         Amusements/Games
 URL:           http://pioneerspacesim.net/
-Source0:       https://github.com/pioneerspacesim/pioneer/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:       https://github.com/pioneerspacesim/pioneer/archive/%{version}.zip#/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
 
@@ -116,10 +116,6 @@ PionilliumText22L Medium font file based on Titillium.
 %prep
 %setup -q -n %{name}-%{version}
 
-## Strip all .png files 
-## 'iCCP: known incorrect sRGB profile' warnings
-# find . -type f -name "*.png" -exec convert {} -strip {} \;
-
 ## Pioneer does not work with Lua 5.3.2
 ## We cannot unbundle internal Lua yet
 ## See https://github.com/pioneerspacesim/pioneer/issues/3712
@@ -185,9 +181,9 @@ mkdir -p %{buildroot}%{_datadir}/applications
 desktop-file-install %{SOURCE1} --dir=%{buildroot}%{_datadir}/applications
 
 ## Install appdata file
-mkdir -p %{buildroot}%{_datadir}/appdata
-install -pm 644 %{SOURCE2} %{buildroot}%{_datadir}/appdata
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/*.appdata.xml
+mkdir -p %{buildroot}%{_datadir}/metainfo
+install -pm 644 %{SOURCE2} %{buildroot}%{_datadir}/metainfo
+appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata.xml
 
 ## Remove empty directories
 find %{buildroot} -name '.gitignore' -exec rm -rf {} ';'
@@ -237,7 +233,7 @@ fi
 %{_datadir}/icons/hicolor/scalable/apps/*.svg
 %{_datadir}/icons/%{name}/
 %{_datadir}/applications/*.desktop
-%{_datadir}/appdata/*.appdata.xml
+%{_datadir}/metainfo/*.appdata.xml
 
 %files data
 %license licenses/GPL-3.txt licenses/*.html licenses/CC-BY-SA-3.0.txt licenses/DejaVu-license.txt
@@ -261,6 +257,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Thu Dec 21 2017 Antonio Trande <sagitter@fedoraproject.org> - 20171001-2
+- Appdata file moved into metainfo data directory
+
 * Sun Oct 01 2017 Antonio Trande <sagitterATfedoraproject.org>  20171001-1
 - Update to 20171001
 
