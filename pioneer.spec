@@ -11,7 +11,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20171001
-Release:       2%{?dist}
+Release:       3%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -202,18 +202,6 @@ ln -sf %{_fontbasedir}/wqy-microhei/wqy-microhei.ttc %{buildroot}%{_datadir}/%{n
 ln -sf %{_fontbasedir}/dejavu/DejaVuSansMono.ttf %{buildroot}%{_datadir}/%{name}/fonts/DejaVuSansMono.ttf
 ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fonts/DejaVuSans.ttf
 
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%postun
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
 %files
 %{_bindir}/%{name}
 %{_bindir}/modelcompiler
@@ -257,6 +245,9 @@ fi
 %dir %{_fontdir}
 
 %changelog
+* Thu Jan 18 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 20171001-3
+- Remove obsolete scriptlets
+
 * Thu Dec 21 2017 Antonio Trande <sagitter@fedoraproject.org> - 20171001-2
 - Appdata file moved into metainfo data directory
 
