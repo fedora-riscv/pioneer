@@ -10,8 +10,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20171001
-Release:       3%{?dist}
+Version:       20180203
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -245,6 +245,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Sat Feb 03 2018 Gwyn Ciesla <limburgher@gmail.com> 20180203-1
+- 20180203
+
 * Thu Jan 18 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 20171001-3
 - Remove obsolete scriptlets
 
