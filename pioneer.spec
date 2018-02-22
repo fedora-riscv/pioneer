@@ -11,7 +11,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20180203
-Release:       2%{?dist}
+Release:       3%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -29,6 +29,7 @@ BuildRequires: chrpath
 BuildRequires: desktop-file-utils
 BuildRequires: doxygen
 BuildRequires: fontpackages-devel
+BuildRequires: gcc, gcc-c++
 BuildRequires: graphviz
 BuildRequires: ImageMagick
 BuildRequires: pkgconfig
@@ -136,8 +137,7 @@ sed -e 's|naturaldocs|NaturalDocs|g' -i Makefile.am
  --without-thirdparty --without-external-liblua --with-no-optimise \
  PIONEER_DATA_DIR=%{_datadir}/%{name}
 
-
-make %{?_smp_mflags} V=1 OPTIMISE=""
+%make_build V=1 OPTIMISE=""
 
 ## Build documentation
 make codedoc
@@ -245,6 +245,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Thu Feb 22 2018 Antonio Trande <sagitterATfedoraproject.org> - 20180203-3
+- Add gcc gcc-c++ BR
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20180203-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
