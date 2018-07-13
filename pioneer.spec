@@ -11,7 +11,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20180203
-Release:       3%{?dist}
+Release:       4%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -245,6 +245,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20180203-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Thu Feb 22 2018 Antonio Trande <sagitterATfedoraproject.org> - 20180203-3
 - Add gcc gcc-c++ BR
 
