@@ -11,13 +11,12 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20180203
-Release:       4%{?dist}
+Release:       5%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
 ## Pioneer's art, music and other assets (including Lua model scripts): CC-BY-SA
 License:       GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
-Group:         Amusements/Games
 URL:           http://pioneerspacesim.net/
 Source0:       https://github.com/pioneerspacesim/pioneer/archive/%{version}.zip#/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
@@ -50,7 +49,7 @@ BuildRequires: libappstream-glib
 
 Requires: %{name}-data = %{version}-%{release}
 Requires: hicolor-icon-theme
-Requires: graphviz
+Requires: graphviz%{?_isa}
 
 %description
 A space adventure game set in the Milky Way galaxy at the turn of
@@ -66,7 +65,6 @@ the various factions fighting for power, freedom or self-determination.
 %package data
 Summary: Data files of %{name}
 BuildArch: noarch
-Group:     Amusements/Games
 Requires: %{name}-inpionata-fonts = %{version}-%{release}
 Requires: %{name}-orbiteer-bold-fonts = %{version}-%{release}
 Requires: %{name}-pionilliumtext22l-medium-fonts = %{version}-%{release}
@@ -182,8 +180,8 @@ desktop-file-install %{SOURCE1} --dir=%{buildroot}%{_datadir}/applications
 
 ## Install appdata file
 mkdir -p %{buildroot}%{_datadir}/metainfo
-install -pm 644 %{SOURCE2} %{buildroot}%{_datadir}/metainfo
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/metainfo/*.appdata.xml
+install -pm 644 %{SOURCE2} %{buildroot}%{_metainfodir}/
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 ## Remove empty directories
 find %{buildroot} -name '.gitignore' -exec rm -rf {} ';'
@@ -221,7 +219,7 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %{_datadir}/icons/hicolor/scalable/apps/*.svg
 %{_datadir}/icons/%{name}/
 %{_datadir}/applications/*.desktop
-%{_datadir}/metainfo/*.appdata.xml
+%{_metainfodir}/*.appdata.xml
 
 %files data
 %license licenses/GPL-3.txt licenses/*.html licenses/CC-BY-SA-3.0.txt licenses/DejaVu-license.txt
@@ -245,6 +243,10 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Wed Sep 05 2018 Antonio Trande <sagitterATfedoraproject.org> - 20180203-5
+- Use %%_metainfodir
+- Remove Group tag
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20180203-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
