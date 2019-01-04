@@ -205,7 +205,7 @@ desktop-file-install metadata/net.pioneerspacesim.Pioneer.desktop --dir=%{buildr
 ## Install appdata file
 mkdir -p %{buildroot}%{_datadir}/metainfo
 #install -pm 644 %%{SOURCE2} %{buildroot}%{_metainfodir}/
-install -pm 644 metadata/net.pioneerspacesim.Pioneer.xml %{buildroot}%{_metainfodir}/pioneer.appdata.xml
+install -pm 644 metadata/net.pioneerspacesim.Pioneer.appdata.xml %{buildroot}%{_metainfodir}/pioneer.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 ## Remove empty directories
