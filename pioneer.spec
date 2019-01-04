@@ -1,6 +1,8 @@
 # https://github.com/pioneerspacesim/pioneer/issues/3846
 ExclusiveArch: %{ix86} x86_64
 
+%global use_autotools 0
+
 ## This package uses an own miniz.h file.
 ## Upstream: taken from http://miniz.googlecode.com/svn/trunk/miniz.c. I've cut this into
 ## header and implementation files and disabled (via define) some interfaces that
@@ -10,20 +12,30 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20180203
-Release:       5%{?dist}
+Version:       20181223
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
 ## Pioneer's art, music and other assets (including Lua model scripts): CC-BY-SA
 License:       GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
 URL:           http://pioneerspacesim.net/
-Source0:       https://github.com/pioneerspacesim/pioneer/archive/%{version}.zip#/%{name}-%{version}.tar.gz
+Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
 
+# Set of patches from January 2019 changes
+Patch0:        %{name}-bug4503.patch
+Patch1:        %{name}-bug4505.patch
+Patch2:        %{name}-bug4509.patch
+Patch3:        %{name}-bug4510.patch
+
+%if 0%{?use_autotools}
 BuildRequires: autoconf
 BuildRequires: automake
+%else
+BuildRequires: cmake
+%endif
 BuildRequires: chrpath
 BuildRequires: desktop-file-utils
 BuildRequires: doxygen
@@ -36,11 +48,10 @@ BuildRequires: pkgconfig(vorbis)
 BuildRequires: pkgconfig(sigc++-2.0)
 BuildRequires: pkgconfig(libcurl)
 BuildRequires: pkgconfig(SDL2_image)
+BuildRequires: pkgconfig(glew)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
-#BuildRequires: pkgconfig(lua)
 BuildRequires: assimp-devel >= 3.2
-#BuildRequires: pkgconfig(gl)
 BuildRequires: mesa-libGLU-devel
 BuildRequires: miniz-devel
 BuildRequires: NaturalDocs
@@ -113,11 +124,12 @@ Requires:  fontpackages-filesystem
 PionilliumText22L Medium font file based on Titillium.
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup -p1 -n %{name}-%{version}
 
-## Pioneer does not work with Lua 5.3.2
+## Pioneer does not work with Lua 5.3.*
 ## We cannot unbundle internal Lua yet
 ## See https://github.com/pioneerspacesim/pioneer/issues/3712
+## https://github.com/mpv-player/mpv/issues/5205
 #rm -f contrib/lua/lua.h
 #rm -f contrib/lua/lauxlib.h
 #rm -f contrib/lua/lua.hpp
@@ -128,22 +140,33 @@ PionilliumText22L Medium font file based on Titillium.
 sed -e 's|naturaldocs|NaturalDocs|g' -i Makefile.am
 
 %build
+%if 0%{?use_autotools}
 ./bootstrap
-
 %configure --disable-silent-rules --with-ccache --without-strip \
  --with-version --with-extra-version --without-extra-warnings \
  --without-thirdparty --without-external-liblua --with-no-optimise \
  PIONEER_DATA_DIR=%{_datadir}/%{name}
-
 %make_build V=1 OPTIMISE=""
+%else
+mkdir -p build && pushd build
+%cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
+       -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
+       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} ..
+%make_build V=1
+popd
+%endif
 
 ## Build documentation
-make codedoc
+#make codedoc
 pushd doxygen
 doxygen
 
 %install
+%if 0%{?use_autotools}
 %make_install
+%else
+%make_install -C build
+%endif
 
 ## Remove rpaths
 chrpath -d %{buildroot}%{_bindir}/%{name}
@@ -176,11 +199,13 @@ install -Dpm 644 application-icon/pngs/%{name}-256x256.png %{buildroot}%{_datadi
 
 ## Install desktop file
 mkdir -p %{buildroot}%{_datadir}/applications
-desktop-file-install %{SOURCE1} --dir=%{buildroot}%{_datadir}/applications
+#desktop-file-install %%{SOURCE1} --dir=%{buildroot}%{_datadir}/applications/
+desktop-file-install metadata/net.pioneerspacesim.Pioneer.desktop --dir=%{buildroot}%{_datadir}/applications/pioneer.desktop
 
 ## Install appdata file
 mkdir -p %{buildroot}%{_datadir}/metainfo
-install -pm 644 %{SOURCE2} %{buildroot}%{_metainfodir}/
+#install -pm 644 %%{SOURCE2} %{buildroot}%{_metainfodir}/
+install -pm 644 metadata/net.pioneerspacesim.Pioneer.xml %{buildroot}%{_metainfodir}/pioneer.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
 ## Remove empty directories
@@ -222,13 +247,15 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %{_metainfodir}/*.appdata.xml
 
 %files data
-%license licenses/GPL-3.txt licenses/*.html licenses/CC-BY-SA-3.0.txt licenses/DejaVu-license.txt
+%license licenses/GPL-3.txt licenses/CC-BY-SA-3.0.txt licenses/DejaVu-license.txt
+# Image Use Policy - NASA Spitzer Space Telescope
+%license licenses/*.html
 %doc AUTHORS.txt Changelog.txt Quickstart.txt README.md
 %{_datadir}/%{name}/
 
 %files doc
 %license licenses/GPL-3.txt
-%doc doxygen/html AUTHORS.txt README.md codedoc
+%doc doxygen/html AUTHORS.txt README.md
 
 %_font_pkg -n inpionata Inpionata.ttf
 %license licenses/SIL-1.1.txt
@@ -243,6 +270,14 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Fri Jan 04 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-1
+- Release 20181223
+- Note about Image Use Policy from NASA Spitzer Space Telescope
+- Use Upstream's metadata files
+
+* Thu Oct 04 2018 Antonio Trande <sagitterATfedoraproject.org> - 20181127-0.1.gitb8e2b81
+- Pre-release 20181127
+
 * Wed Sep 05 2018 Antonio Trande <sagitterATfedoraproject.org> - 20180203-5
 - Use %%_metainfodir
 - Remove Group tag

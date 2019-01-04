@@ -1,0 +1,62 @@
+From e83b0c04eaafb8314639380b8cf8a85141ca65e8 Mon Sep 17 00:00:00 2001
+From: orbea <orbea@fredslev.dk>
+Date: Thu, 3 Jan 2019 16:51:05 -0800
+Subject: [PATCH 1/2] Fix modelcompiler crash when opengl.txt doesn't exist.
+
+This crash is reproduced during the build when ran with sandbox.
+
+Further fixes https://github.com/pioneerspacesim/pioneer/issues/4506
+---
+ src/graphics/Graphics.cpp | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/src/graphics/Graphics.cpp b/src/graphics/Graphics.cpp
+index f5d0c345ec..e4958b0f3f 100644
+--- a/src/graphics/Graphics.cpp
++++ b/src/graphics/Graphics.cpp
+@@ -102,11 +102,16 @@ Renderer* Init(Settings vs)
+ 		renderer->WriteRendererInfo(buf);
+ 
+ 		FILE *f = FileSystem::userFiles.OpenWriteStream("opengl.txt", FileSystem::FileSourceFS::WRITE_TEXT);
+-		if (!f)
++		if (f)
++		{
++			const std::string &s = buf.str();
++			fwrite(s.c_str(), 1, s.size(), f);
++			fclose(f);
++		}
++		else
++		{
+ 			Output("Could not open 'opengl.txt'\n");
+-		const std::string &s = buf.str();
+-		fwrite(s.c_str(), 1, s.size(), f);
+-		fclose(f);
++		}
+ 	}
+ 
+ 	initted = true;
+
+From b97fe61476f6fd7eb0621dbd660f0020fd32a9fc Mon Sep 17 00:00:00 2001
+From: orbea <orbea@fredslev.dk>
+Date: Thu, 3 Jan 2019 16:59:50 -0800
+Subject: [PATCH 2/2] cmake: Add missing DESTDIR.
+
+This will be installed directly to the file system even when DESTDIR
+is used.
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1512307f95..0b6b504611 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -250,7 +250,7 @@ install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
+ 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+ )
+ install(DIRECTORY data/
+-	DESTINATION ${PIONEER_DATA_DIR}
++	DESTINATION ${DESTDIR}${PIONEER_DATA_DIR}
+ 	PATTERN "listdata.*" EXCLUDE
+ 	PATTERN "Makefile.am" EXCLUDE
+ )

@@ -1,0 +1,27 @@
+From d8a0d783b32b066c9d246e009791eddbf2aedbf3 Mon Sep 17 00:00:00 2001
+From: orbea <orbea@fredslev.dk>
+Date: Fri, 28 Dec 2018 08:21:42 -0800
+Subject: [PATCH] cmake: Test for a .git directory.
+
+This prevents the following error when git is found and the source
+directory is not a git repo.
+
+  fatal: not a git repository (or any parent up to mount point /)
+  Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2b91161386..2d00fd1924 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -39,7 +39,7 @@ endif()
+ 
+ # Get the GIT hash of the latest commit
+ include(FindGit OPTIONAL)
+-if (GIT_FOUND)
++if (GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
+ 	execute_process(
+ 		COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+ 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
