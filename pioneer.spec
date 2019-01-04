@@ -13,7 +13,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20181223
-Release:       1%{?dist}
+Release:       2%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -198,13 +198,18 @@ install -Dpm 644 application-icon/pngs/%{name}-128x128.png %{buildroot}%{_datadi
 install -Dpm 644 application-icon/pngs/%{name}-256x256.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
 
 ## Install desktop file
+# Convert to utf-8
+for file in metadata/net.pioneerspacesim.Pioneer.desktop; do
+    iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
+    touch -r $file $file.new && \
+    mv $file.new $file
+done
 mkdir -p %{buildroot}%{_datadir}/applications
-#desktop-file-install %%{SOURCE1} --dir=%{buildroot}%{_datadir}/applications/
-desktop-file-install metadata/net.pioneerspacesim.Pioneer.desktop --dir=%{buildroot}%{_datadir}/applications/pioneer.desktop
+install -pm 644 metadata/net.pioneerspacesim.Pioneer.desktop %{buildroot}%{_datadir}/applications/pioneer.desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/pioneer.desktop
 
 ## Install appdata file
 mkdir -p %{buildroot}%{_datadir}/metainfo
-#install -pm 644 %%{SOURCE2} %{buildroot}%{_metainfodir}/
 install -pm 644 metadata/net.pioneerspacesim.Pioneer.appdata.xml %{buildroot}%{_metainfodir}/pioneer.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
 
@@ -271,6 +276,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Fri Jan 04 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-2
+- Fix desktop file installation
+
 * Fri Jan 04 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-1
 - Release 20181223
 - Note about Image Use Policy from NASA Spitzer Space Telescope
