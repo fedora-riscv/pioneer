@@ -228,6 +228,7 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %files
 %{_bindir}/%{name}
 %{_bindir}/modelcompiler
+%{_bindir}/savegamedump
 %{_datadir}/icons/hicolor/16x16/apps/*.png
 %{_datadir}/icons/hicolor/22x22/apps/*.png
 %{_datadir}/icons/hicolor/24x24/apps/*.png
