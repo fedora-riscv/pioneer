@@ -13,7 +13,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20181223
-Release:       3%{?dist}
+Release:       4%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -206,7 +206,7 @@ for file in metadata/net.pioneerspacesim.Pioneer.desktop; do
 done
 mkdir -p %{buildroot}%{_datadir}/applications
 install -pm 644 metadata/net.pioneerspacesim.Pioneer.desktop %{buildroot}%{_datadir}/applications/pioneer.desktop
-desktop-file-validate %{buildroot}%{_datadir}/applications/pioneer.desktop
+desktop-file-edit --set-icon=%{_datadir}/icons/hicolor/64x64/apps/%{name}-64x64.png %{buildroot}%{_datadir}/applications/pioneer.desktop
 
 ## Install appdata file
 mkdir -p %{buildroot}%{_datadir}/metainfo
@@ -277,6 +277,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Sat Jan 05 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-4
+- Fix desktop file again
+
 * Fri Jan 04 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-3
 - Fix desktop file
 
