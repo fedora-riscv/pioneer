@@ -206,7 +206,11 @@ for file in metadata/net.pioneerspacesim.Pioneer.desktop; do
 done
 mkdir -p %{buildroot}%{_datadir}/applications
 install -pm 644 metadata/net.pioneerspacesim.Pioneer.desktop %{buildroot}%{_datadir}/applications/pioneer.desktop
-desktop-file-edit --set-icon=%{_datadir}/icons/hicolor/64x64/apps/%{name}-64x64.png %{buildroot}%{_datadir}/applications/pioneer.desktop
+desktop-file-edit \
+ --set-icon=%{_datadir}/icons/hicolor/64x64/apps/%{name}-64x64.png \
+ --set-key=Exec --set-value="env force_s3tc_enable=true pioneer" \
+ --set-key=StartupNotify --set-value=false \
+ %{buildroot}%{_datadir}/applications/pioneer.desktop
 
 ## Install appdata file
 mkdir -p %{buildroot}%{_datadir}/metainfo
