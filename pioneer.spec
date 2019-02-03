@@ -191,24 +191,26 @@ install -Dpm 644 application-icon/pngs/%{name}-64x64.png %{buildroot}%{_datadir}
 install -Dpm 644 application-icon/pngs/%{name}-128x128.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps
 install -Dpm 644 application-icon/pngs/%{name}-256x256.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
 
-## Install desktop file
-# Convert to utf-8
-for file in metadata/net.pioneerspacesim.Pioneer.desktop; do
+## Modifing of desktop file
+# Converting to utf-8
+for file in %{buildroot}%{_datadir}/applications/net.pioneerspacesim.Pioneer.desktop ; do
     iconv -f ISO-8859-1 -t UTF-8 -o $file.new $file && \
     touch -r $file $file.new && \
     mv $file.new $file
 done
-mkdir -p %{buildroot}%{_datadir}/applications
-install -pm 644 metadata/net.pioneerspacesim.Pioneer.desktop %{buildroot}%{_datadir}/applications/pioneer.desktop
+
+# Renaming and editing
+mv %{buildroot}%{_datadir}/applications/net.pioneerspacesim.Pioneer.desktop %{buildroot}%{_datadir}/applications/pioneer.desktop
 desktop-file-edit \
  --set-icon=%{_datadir}/icons/hicolor/64x64/apps/%{name}-64x64.png \
  --set-key=Exec --set-value="env force_s3tc_enable=true pioneer" \
  --set-key=StartupNotify --set-value=false \
  %{buildroot}%{_datadir}/applications/pioneer.desktop
 
-## Install appdata file
-mkdir -p %{buildroot}%{_datadir}/metainfo
-install -pm 644 metadata/net.pioneerspacesim.Pioneer.appdata.xml %{buildroot}%{_metainfodir}/pioneer.appdata.xml
+## Moving and editing of appdata file
+mkdir -p %{buildroot}%{_metainfodir}
+mv %{buildroot}%{_datadir}/appdata/net.pioneerspacesim.Pioneer.appdata.xml %{buildroot}%{_metainfodir}/pioneer.appdata.xml
+rm -rf %{buildroot}%{_datadir}/appdata
 sed -i 's|net.pioneerspacesim.Pioneer.desktop|pioneer.desktop|' %{buildroot}%{_metainfodir}/pioneer.appdata.xml
 sed -i 's|<id>net.pioneerspacesim.Pioneer</id>|<id type="desktop">pioneer.desktop</id>|' %{buildroot}%{_metainfodir}/pioneer.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/*.appdata.xml
@@ -279,7 +281,7 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 * Sun Feb 03 2019 Antonio Trande <sagitterATfedoraproject.org> - 20190203-1
 - Release 20190203
 
-* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 20181223-5
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 20181223-5	
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
 * Sat Jan 05 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-4
