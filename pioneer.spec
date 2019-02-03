@@ -12,8 +12,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20181223
-Release:       5%{?dist}
+Version:       20190203
+Release:       1%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -23,12 +23,6 @@ URL:           http://pioneerspacesim.net/
 Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
-
-# Set of patches from January 2019 changes
-Patch0:        %{name}-bug4503.patch
-Patch1:        %{name}-bug4505.patch
-Patch2:        %{name}-bug4509.patch
-Patch3:        %{name}-bug4510.patch
 
 %if 0%{?use_autotools}
 BuildRequires: autoconf
@@ -124,7 +118,7 @@ Requires:  fontpackages-filesystem
 PionilliumText22L Medium font file based on Titillium.
 
 %prep
-%autosetup -p1 -n %{name}-%{version}
+%autosetup -n %{name}-%{version}
 
 ## Pioneer does not work with Lua 5.3.*
 ## We cannot unbundle internal Lua yet
@@ -282,6 +276,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Sun Feb 03 2019 Antonio Trande <sagitterATfedoraproject.org> - 20190203-1
+- Release 20190203
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 20181223-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
