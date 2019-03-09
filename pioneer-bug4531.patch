@@ -1,0 +1,60 @@
+From 82440156094f4968ec823d079c706c0098e10477 Mon Sep 17 00:00:00 2001
+From: Peter <craven@gmx.net>
+Date: Thu, 7 Feb 2019 17:53:41 +0100
+Subject: [PATCH] Search for and show additional system names on map.
+
+---
+ data/pigui/modules/map-sector-view.lua |  3 +++
+ data/systems/02_local_stars.lua        |  3 +--
+ src/SectorView.cpp                     | 10 ++++++++++
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/data/pigui/modules/map-sector-view.lua b/data/pigui/modules/map-sector-view.lua
+index a6be510360..5ba93f61cd 100644
+--- a/data/pigui/modules/map-sector-view.lua
++++ b/data/pigui/modules/map-sector-view.lua
+@@ -55,6 +55,9 @@ local function showSystemInfo(label, current_systempath, systempath, othersystem
+ 										numstarstext = starsystem.rootSystemBody.astroDescription
+ 									end
+ 									ui.text(numstarstext)
++									if next(starsystem.other_names) ~= nil then
++										ui.text(table.concat(starsystem.other_names, ", "))
++									end
+ 									ui.text(starsystem.shortDescription)
+ 									if othersystempath and not othersystempath:IsSameSystem(systempath) then
+ 										local otherstarsystem = othersystempath:GetStarSystem()
+diff --git a/data/systems/02_local_stars.lua b/data/systems/02_local_stars.lua
+index d2ac0fe713..f6f3e18f34 100755
+--- a/data/systems/02_local_stars.lua
++++ b/data/systems/02_local_stars.lua
+@@ -239,8 +239,7 @@ CustomSystem:new('Gliese 203',{'STAR_M'}):add_to_sector(3,-1,0,v(0.460,0.514,0.5
+ CustomSystem:new('Xi Boötis',{'STAR_G','STAR_K'}):add_to_sector(-2,1,0,v(0.245,0.892,0.894))
+ CustomSystem:new('Gliese 205',{'STAR_M'}):add_to_sector(2,-1,-1,v(0.297,0.712,0.851))
+ CustomSystem:new('NN 3976',{'STAR_M'}):add_to_sector(-4,1,1,v(0.402,0.118,0.557))
+-CustomSystem:new('Toliman',{'STAR_G','STAR_K'}):add_to_sector(-1,0,-1,v(0.828,0.204,0.520))--:other_names({"Bungula", "Gliese 559", "FK5 538", "GC 19728", "CCDM J14396-6050", "Alpha Centauri", "α Centauri"})
+--- That's Alpha Centauri, or Rigil Kent., btw (-:
++CustomSystem:new('Toliman',{'STAR_G','STAR_K'}):other_names({"Bungula", "Alpha Centauri", "α Centauri"}):add_to_sector(-1,0,-1,v(0.828,0.204,0.520)) -- "Gliese 559", "FK5 538", "GC 19728", "CCDM J14396-6050",
+ CustomSystem:new('NN 3801',{'STAR_M'}):add_to_sector(-2,2,2,v(0.656,0.795,0.036))
+ CustomSystem:new('NN 3804',{'STAR_M'}):add_to_sector(-2,3,-2,v(0.030,0.957,0.566))
+ CustomSystem:new('Gliese 521',{'STAR_M'}):add_to_sector(-2,3,3,v(0.427,0.396,0.900))
+diff --git a/src/SectorView.cpp b/src/SectorView.cpp
+index 1448657361..72a106e462 100644
+--- a/src/SectorView.cpp
++++ b/src/SectorView.cpp
+@@ -1303,6 +1303,16 @@ std::vector<SystemPath> SectorView::GetNearbyStarSystemsByName(std::string patte
+ 				match.systemIndex = systemIndex;
+ 				result.push_back(match);
+ 			}
++			// now also check other names of this system, if there are any
++			for (const std::string &other_name : ss->GetOtherNames()) {
++				if (strncasecmp(pattern.c_str(), other_name.c_str(), pattern.size()) == 0
++					// look for the pattern term somewhere within the current system
++					|| pi_strcasestr(other_name.c_str(), pattern.c_str())) {
++					SystemPath match((*i).first);
++					match.systemIndex = systemIndex;
++					result.push_back(match);
++				}
++			}
+ 		}
+ 	}
+ 	return result;

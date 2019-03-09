@@ -1,0 +1,62 @@
+From 64094edbc43d8e456b2c0d245fa2e5be823731bf Mon Sep 17 00:00:00 2001
+From: John Jordan <jaj22x@gmail.com>
+Date: Wed, 6 Mar 2019 16:58:35 +0000
+Subject: [PATCH 1/2] Fix game load crash with unattached hyperspace clouds
+
+---
+ src/HyperspaceCloud.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/HyperspaceCloud.cpp b/src/HyperspaceCloud.cpp
+index 9c73535e7a..14691522c4 100644
+--- a/src/HyperspaceCloud.cpp
++++ b/src/HyperspaceCloud.cpp
+@@ -44,6 +44,7 @@ HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
+ 		m_due = hyperspaceCloudObj["due"];
+ 		m_isArrival = hyperspaceCloudObj["is_arrival"];
+ 
++		m_ship = 0;
+ 		if (hyperspaceCloudObj["ship"].is_object()) {
+ 			Json shipObj = hyperspaceCloudObj["ship"];
+ 			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
+
+From 320427f0ff85520af39f94aaad2cd84f71fcbf07 Mon Sep 17 00:00:00 2001
+From: John Jordan <jaj22x@gmail.com>
+Date: Thu, 7 Mar 2019 05:24:07 +0000
+Subject: [PATCH 2/2] Change a few 0s to nullptr
+
+---
+ src/HyperspaceCloud.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/HyperspaceCloud.cpp b/src/HyperspaceCloud.cpp
+index 14691522c4..0ce00b9982 100644
+--- a/src/HyperspaceCloud.cpp
++++ b/src/HyperspaceCloud.cpp
+@@ -44,7 +44,7 @@ HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
+ 		m_due = hyperspaceCloudObj["due"];
+ 		m_isArrival = hyperspaceCloudObj["is_arrival"];
+ 
+-		m_ship = 0;
++		m_ship = nullptr;
+ 		if (hyperspaceCloudObj["ship"].is_object()) {
+ 			Json shipObj = hyperspaceCloudObj["ship"];
+ 			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
+@@ -112,7 +112,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
+ 
+ 		m_ship->EnterSystem();
+ 
+-		m_ship = 0;
++		m_ship = nullptr;
+ 	}
+ 
+ 	// cloud expiration
+@@ -126,7 +126,7 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
+ Ship *HyperspaceCloud::EvictShip()
+ {
+ 	Ship *s = m_ship;
+-	m_ship = 0;
++	m_ship = nullptr;
+ 	return s;
+ }
+ 
