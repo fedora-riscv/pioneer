@@ -13,7 +13,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20190203
-Release:       2%{?dist}
+Release:       3%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -24,11 +24,12 @@ Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}/%{n
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
 
-Patch0:       pioneer-bug4528.patch
-Patch1:       pioneer-bug4529.patch
-Patch2:       pioneer-bug4531.patch
-Patch3:       pioneer-bug4534.patch
-Patch4:       pioneer-bug4555.patch
+Patch0:       %{name}-bug4528.patch
+Patch1:       %{name}-bug4529.patch
+Patch2:       %{name}-bug4531.patch
+Patch3:       %{name}-bug4534.patch
+Patch4:       %{name}-bug4555.patch
+Patch5:       %{name}-bug4566.patch
 
 %if 0%{?use_autotools}
 BuildRequires: autoconf
@@ -284,6 +285,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Wed Apr 24 2019 Antonio Trande <sagitterATfedoraproject.org> - 20190203-3
+- Bugfix (upstream #4566)
+
 * Sat Mar 09 2019 Antonio Trande <sagitterATfedoraproject.org> - 20190203-2
 - Bugfix (upstream #4555) + new features
 
