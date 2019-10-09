@@ -2,6 +2,17 @@
 ExclusiveArch: %{ix86} x86_64
 
 %global use_autotools 0
+%global use_intermediate 0
+
+%if 0%{?use_intermediate}
+%global commit e85a0cf4ca8e710d926f6c1581c3d9db242f361f
+%global date .20190924git
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%else
+%global commit %{nil}
+%global date %{nil}
+%global shortcommit %{nil}
+%endif
 
 ## This package uses an own miniz.h file.
 ## Upstream: taken from http://miniz.googlecode.com/svn/trunk/miniz.c. I've cut this into
@@ -12,8 +23,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20190203
-Release:       4%{?dist}
+Version:       20191009
+Release:       1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -23,13 +34,7 @@ URL:           http://pioneerspacesim.net/
 Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
-
-Patch0:       %{name}-bug4528.patch
-Patch1:       %{name}-bug4529.patch
-Patch2:       %{name}-bug4531.patch
-Patch3:       %{name}-bug4534.patch
-Patch4:       %{name}-bug4555.patch
-Patch5:       %{name}-bug4566.patch
+Patch0:        pioneer-bug4691.patch
 
 %if 0%{?use_autotools}
 BuildRequires: autoconf
@@ -125,7 +130,10 @@ Requires:  fontpackages-filesystem
 PionilliumText22L Medium font file based on Titillium.
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%autosetup -n %{name}-%{version} -N
+%ifarch %{ix86}
+%autopatch -p1
+%endif
 
 ## Pioneer does not work with Lua 5.3.*
 ## We cannot unbundle internal Lua yet
@@ -136,9 +144,6 @@ PionilliumText22L Medium font file based on Titillium.
 #rm -f contrib/lua/lua.hpp
 #rm -f contrib/lua/luaconf.h
 #rm -f contrib/lua/lualib.h
-
-## Set NaturalDocs name
-sed -e 's|naturaldocs|NaturalDocs|g' -i Makefile.am
 
 %build
 %if 0%{?use_autotools}
@@ -285,46 +290,49 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Wed Oct 09 2019 Antonio Trande <sagitter@fedoraproject.org> - 20191009-1
+- Release 20191009
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 20190203-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
-* Wed Apr 24 2019 Antonio Trande <sagitterATfedoraproject.org> - 20190203-3
+* Wed Apr 24 2019 Antonio Trande <sagitter@fedoraproject.org> - 20190203-3
 - Bugfix (upstream #4566)
 
-* Sat Mar 09 2019 Antonio Trande <sagitterATfedoraproject.org> - 20190203-2
+* Sat Mar 09 2019 Antonio Trande <sagitter@fedoraproject.org> - 20190203-2
 - Bugfix (upstream #4555) + new features
 
-* Sun Feb 03 2019 Antonio Trande <sagitterATfedoraproject.org> - 20190203-1
+* Sun Feb 03 2019 Antonio Trande <sagitter@fedoraproject.org> - 20190203-1
 - Release 20190203
 
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 20181223-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
-* Sat Jan 05 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-4
+* Sat Jan 05 2019 Antonio Trande <sagitter@fedoraproject.org> - 20181223-4
 - Fix desktop file again
 
-* Fri Jan 04 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-3
+* Fri Jan 04 2019 Antonio Trande <sagitter@fedoraproject.org> - 20181223-3
 - Fix desktop file
 
-* Fri Jan 04 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-2
+* Fri Jan 04 2019 Antonio Trande <sagitter@fedoraproject.org> - 20181223-2
 - Fix desktop file installation
 
-* Fri Jan 04 2019 Antonio Trande <sagitterATfedoraproject.org> - 20181223-1
+* Fri Jan 04 2019 Antonio Trande <sagitter@fedoraproject.org> - 20181223-1
 - Release 20181223
 - Note about Image Use Policy from NASA Spitzer Space Telescope
 - Use Upstream's metadata files
 
-* Thu Oct 04 2018 Antonio Trande <sagitterATfedoraproject.org> - 20181127-0.1.gitb8e2b81
+* Thu Oct 04 2018 Antonio Trande <sagitter@fedoraproject.org> - 20181127-0.1.gitb8e2b81
 - Pre-release 20181127
 
-* Wed Sep 05 2018 Antonio Trande <sagitterATfedoraproject.org> - 20180203-5
+* Wed Sep 05 2018 Antonio Trande <sagitter@fedoraproject.org> - 20180203-5
 - Use %%_metainfodir
 - Remove Group tag
 
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20180203-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
-* Thu Feb 22 2018 Antonio Trande <sagitterATfedoraproject.org> - 20180203-3
+* Thu Feb 22 2018 Antonio Trande <sagitter@fedoraproject.org> - 20180203-3
 - Add gcc gcc-c++ BR
 
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20180203-2
@@ -339,13 +347,13 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 * Thu Dec 21 2017 Antonio Trande <sagitter@fedoraproject.org> - 20171001-2
 - Appdata file moved into metainfo data directory
 
-* Sun Oct 01 2017 Antonio Trande <sagitterATfedoraproject.org>  20171001-1
+* Sun Oct 01 2017 Antonio Trande <sagitter@fedoraproject.org>  20171001-1
 - Update to 20171001
 
-* Tue Aug 29 2017 Antonio Trande <sagitterATfedoraproject.org>  20170827-2
+* Tue Aug 29 2017 Antonio Trande <sagitter@fedoraproject.org>  20170827-2
 - Exclude stripping of PNG files (bz#1486399)
 
-* Sun Aug 27 2017 Antonio Trande <sagitterATfedoraproject.org>  20170827-1
+* Sun Aug 27 2017 Antonio Trande <sagitter@fedoraproject.org>  20170827-1
 - Update to 20170827
 
 * Mon Aug 14 2017 Jon Ciesla <limburgher@gmail.com> 20170813-1
@@ -366,25 +374,25 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20161129-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
-* Fri Jan 06 2017 Antonio Trande <sagitterATfedoraproject.org>  20161129-3
+* Fri Jan 06 2017 Antonio Trande <sagitter@fedoraproject.org>  20161129-3
 - Use icon with size 64x64
 
-* Fri Jan 06 2017 Antonio Trande <sagitterATfedoraproject.org>  20161129-2
+* Fri Jan 06 2017 Antonio Trande <sagitter@fedoraproject.org>  20161129-2
 - Set desktop icon
 
 * Fri Dec 02 2016 Jon Ciesla <limburgher@gmail.com> 20161129-1
 - 20161129
 
-* Thu Nov 10 2016 Antonio Trande <sagitterATfedoraproject.org>  20161110-1
+* Thu Nov 10 2016 Antonio Trande <sagitter@fedoraproject.org>  20161110-1
 - Update to the version 20161110
 
-* Mon Oct 31 2016 Antonio Trande <sagitterATfedoraproject.org>  20161028-1
+* Mon Oct 31 2016 Antonio Trande <sagitter@fedoraproject.org>  20161028-1
 - Update to the version 20161028 (Bug fixes)
 
-* Wed Oct 26 2016 Antonio Trande <sagitterATfedoraproject.org> 20161022-3
+* Wed Oct 26 2016 Antonio Trande <sagitter@fedoraproject.org> 20161022-3
 - Set ExclusiveArch
 
-* Tue Oct 25 2016 Antonio Trande <sagitterATfedoraproject.org> 20161022-2
+* Tue Oct 25 2016 Antonio Trande <sagitter@fedoraproject.org> 20161022-2
 - 'sed' patch for AARCH64 builds
 
 * Mon Oct 24 2016 Jon Ciesla <limburgher@gmail.com> 20161022-1
@@ -393,36 +401,36 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 * Thu Oct 13 2016 Jon Ciesla <limburgher@gmail.com> 20160907-1
 - 20160907
 
-* Sun Aug 14 2016 Antonio Trande <sagitterATfedoraproject.org>  20160814-1
+* Sun Aug 14 2016 Antonio Trande <sagitter@fedoraproject.org>  20160814-1
 - Update to the version 20160814
 
 * Tue Jul 19 2016 Ben Rosser <rosser.bjr@gmail.com> 20160710-1
 - Update to latest release
 
-* Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org>  20160701-2
+* Sat Jul 09 2016 Antonio Trande <sagitter@fedoraproject.org>  20160701-2
 - Fix typos in the appdata file
 
-* Sat Jul 09 2016 Antonio Trande <sagitterATfedoraproject.org>  20160701-1
+* Sat Jul 09 2016 Antonio Trande <sagitter@fedoraproject.org>  20160701-1
 - Update to release 20160701
 
-* Sun Jun 12 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-6
+* Sun Jun 12 2016 Antonio Trande <sagitter@fedoraproject.org>  20160512-6
 - Patched for EXTRA_CXXFLAGS
 
-* Thu Jun 02 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-5
+* Thu Jun 02 2016 Antonio Trande <sagitter@fedoraproject.org>  20160512-5
 - Patched for aarch64 build
 
-* Thu Jun 02 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-4
+* Thu Jun 02 2016 Antonio Trande <sagitter@fedoraproject.org>  20160512-4
 - hardened_builds flags enabled
 - assimp libraries linked manually
 
-* Sat May 28 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-3
+* Sat May 28 2016 Antonio Trande <sagitter@fedoraproject.org>  20160512-3
 - Unbundle DejaVuSans.ttf DejaVuSansMono.ttf wqy-microhei.ttc font files
 - Made Inpionata Orbiteer-Bold PionilliumText22L-Medium fonts sub-packages
 
-* Fri May 27 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-2
+* Fri May 27 2016 Antonio Trande <sagitter@fedoraproject.org>  20160512-2
 - Made /usr/share/icons/hicolor/40x40 owned
 - Replace Summary
 - Made a doc sub-package
 
-* Fri May 20 2016 Antonio Trande <sagitterATfedoraproject.org>  20160512-1
+* Fri May 20 2016 Antonio Trande <sagitter@fedoraproject.org>  20160512-1
 - First package
