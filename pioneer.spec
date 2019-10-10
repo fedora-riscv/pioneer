@@ -24,7 +24,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20191009
-Release:       1%{date}%{shortcommit}%{?dist}
+Release:       2%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -215,7 +215,7 @@ done
 mv %{buildroot}%{_datadir}/applications/net.pioneerspacesim.Pioneer.desktop %{buildroot}%{_datadir}/applications/pioneer.desktop
 desktop-file-edit \
  --set-icon=%{_datadir}/icons/hicolor/64x64/apps/%{name}-64x64.png \
- --set-key=Exec --set-value="env force_s3tc_enable=true pioneer" \
+ --set-key=Exec --set-value="env force_s3tc_enable=true SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0 pioneer" \
  --set-key=StartupNotify --set-value=false \
  %{buildroot}%{_datadir}/applications/pioneer.desktop
 
@@ -290,6 +290,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Thu Oct 10 2019 Antonio Trande <sagitter@fedoraproject.org> - 20191009-2
+- Add SDL env variable to desktop's Exec command (rhbz#1759866)
+
 * Wed Oct 09 2019 Antonio Trande <sagitter@fedoraproject.org> - 20191009-1
 - Release 20191009
 

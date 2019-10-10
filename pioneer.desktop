@@ -2,7 +2,7 @@
 Version=1.0
 Name=Pioneer
 Comment=A game of lonely space adventure
-Exec=env force_s3tc_enable=true pioneer
+Exec=env force_s3tc_enable=true SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0 pioneer
 StartupNotify=false
 Terminal=false
 Type=Application
