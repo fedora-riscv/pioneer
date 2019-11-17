@@ -23,8 +23,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20191009
-Release:       2%{date}%{shortcommit}%{?dist}
+Version:       20191117
+Release:       1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -290,6 +290,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Sun Nov 17 2019 Antonio Trande <sagitter@fedoraproject.org> - 20191117-1
+- Release 20191117
+
 * Thu Oct 10 2019 Antonio Trande <sagitter@fedoraproject.org> - 20191009-2
 - Add SDL env variable to desktop's Exec command (rhbz#1759866)
 
