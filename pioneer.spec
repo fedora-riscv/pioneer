@@ -24,7 +24,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20191117
-Release:       2%{date}%{shortcommit}%{?dist}
+Release:       3%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -68,6 +68,8 @@ Requires: %{name}-data = %{version}-%{release}
 Requires: hicolor-icon-theme
 Requires: graphviz%{?_isa}
 
+Obsoletes: %{name}-doc < 0:20191117-3
+
 %description
 A space adventure game set in the Milky Way galaxy at the turn of
 the 31st century.
@@ -91,13 +93,6 @@ Requires: dejavu-sans-mono-fonts
 
 %description data
 Data files of %{name}.
-
-####################
-%package doc
-Summary: HTML documentation files of %{name}
-BuildArch: noarch
-%description doc
-Lua API NaturalDocs and C++ documentation files of %{name}.
 
 ####################
 %package inpionata-fonts
@@ -245,6 +240,7 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSansMono.ttf %{buildroot}%{_datadir}/%{name}
 ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fonts/DejaVuSans.ttf
 
 %files
+%doc doxygen/html
 %{_bindir}/%{name}
 %{_bindir}/modelcompiler
 %{_bindir}/savegamedump
@@ -273,10 +269,6 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %doc AUTHORS.txt Changelog.txt Quickstart.txt README.md
 %{_datadir}/%{name}/
 
-%files doc
-%license licenses/GPL-3.txt
-%doc doxygen/html AUTHORS.txt README.md
-
 %_font_pkg -n inpionata Inpionata.ttf
 %license licenses/SIL-1.1.txt
 %dir %{_fontdir}
@@ -290,6 +282,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Thu Jan 30 2020 Antonio Trande <sagitter@fedoraproject.org> - 20191117-3
+- Move HTML documentation into main package
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20191117-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
