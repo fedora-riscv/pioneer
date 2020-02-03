@@ -23,8 +23,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20191117
-Release:       3%{date}%{shortcommit}%{?dist}
+Version:       20200203
+Release:       1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -34,7 +34,7 @@ URL:           http://pioneerspacesim.net/
 Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
-Patch0:        pioneer-bug4691.patch
+Patch0:        %{name}-bug4691.patch
 
 %if 0%{?use_autotools}
 BuildRequires: autoconf
@@ -282,6 +282,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Mon Feb 03 2020 Antonio Trande <sagitter@fedoraproject.org> - 20200203-1
+- Release 20200203
+
 * Thu Jan 30 2020 Antonio Trande <sagitter@fedoraproject.org> - 20191117-3
 - Move HTML documentation into main package
 
