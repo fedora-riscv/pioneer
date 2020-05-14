@@ -82,8 +82,8 @@ the various factions fighting for power, freedom or self-determination.
 
 ####################
 %global fonts font(dejavusans)
-%global fonts %{fonts}|font(dejavusansmono)
-%global fonts %{fonts}|font(wenquanyimicrohei)
+%global fonts %{fonts} font(dejavusansmono)
+%global fonts %{fonts} font(wenquanyimicrohei)
 %package data
 Summary: Data files of %{name}
 BuildArch: noarch
