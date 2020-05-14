@@ -24,7 +24,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20200203
-Release:       1%{date}%{shortcommit}%{?dist}
+Release:       2%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -81,15 +81,17 @@ hand at piracy, make your fortune trading between systems, or do missions for
 the various factions fighting for power, freedom or self-determination.
 
 ####################
+%global fonts font(dejavusans)
+%global fonts %{fonts}|font(dejavusansmono)
+%global fonts %{fonts}|font(wenquanyimicrohei)
 %package data
 Summary: Data files of %{name}
 BuildArch: noarch
+BuildRequires: fontconfig %{fonts}
 Requires: %{name}-inpionata-fonts = %{version}-%{release}
 Requires: %{name}-orbiteer-bold-fonts = %{version}-%{release}
 Requires: %{name}-pionilliumtext22l-medium-fonts = %{version}-%{release}
-Requires: wqy-microhei-fonts
-Requires: dejavu-sans-fonts
-Requires: dejavu-sans-mono-fonts
+Requires: %{fonts}
 
 %description data
 Data files of %{name}.
@@ -235,9 +237,9 @@ ln -sf %{_fontdir}/Inpionata.ttf %{buildroot}%{_datadir}/%{name}/fonts/Inpionata
 ln -sf %{_fontdir}/Orbiteer-Bold.ttf %{buildroot}%{_datadir}/%{name}/fonts/Orbiteer-Bold.ttf
 ln -sf %{_fontdir}/PionilliumText22L-Medium.ttf %{buildroot}%{_datadir}/%{name}/fonts/PionilliumText22L-Medium.ttf
 
-ln -sf %{_fontbasedir}/wqy-microhei/wqy-microhei.ttc %{buildroot}%{_datadir}/%{name}/fonts/wqy-microhei.ttc
-ln -sf %{_fontbasedir}/dejavu/DejaVuSansMono.ttf %{buildroot}%{_datadir}/%{name}/fonts/DejaVuSansMono.ttf
-ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fonts/DejaVuSans.ttf
+ln -sf $(fc-match -f "%{file}" "wenquanyimicrohei") %{buildroot}%{_datadir}/%{name}/fonts/wqy-microhei.ttc
+ln -sf $(fc-match -f "%{file}" "dejavusansmono") %{buildroot}%{_datadir}/%{name}/fonts/DejaVuSansMono.ttf
+ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fonts/DejaVuSans.ttf
 
 %files
 %doc doxygen/html
@@ -282,6 +284,9 @@ ln -sf %{_fontbasedir}/dejavu/DejaVuSans.ttf %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Thu May 14 2020 Antonio Trande <sagitter@fedoraproject.org> - 20200203-2
+- Conform fonts symlinks to the new paths (rhbz#1835506)
+
 * Mon Feb 03 2020 Antonio Trande <sagitter@fedoraproject.org> - 20200203-1
 - Release 20200203
 
