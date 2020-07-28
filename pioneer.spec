@@ -24,7 +24,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20200203
-Release:       2%{date}%{shortcommit}%{?dist}
+Release:       3%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -284,6 +284,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200203-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Thu May 14 2020 Antonio Trande <sagitter@fedoraproject.org> - 20200203-2
 - Conform fonts symlinks to the new paths (rhbz#1835506)
 
