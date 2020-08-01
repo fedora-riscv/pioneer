@@ -1,6 +1,8 @@
 # https://github.com/pioneerspacesim/pioneer/issues/3846
 ExclusiveArch: %{ix86} x86_64
 
+%global __cmake_in_source_build 1
+
 %global use_autotools 0
 %global use_intermediate 0
 
@@ -285,8 +287,8 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 
 %changelog
 * Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200203-4
-- Second attempt - Rebuilt for
-  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Second attempt - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+- Enable cmake_in_source_build
 
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200203-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
