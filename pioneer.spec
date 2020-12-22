@@ -1,8 +1,6 @@
 # https://github.com/pioneerspacesim/pioneer/issues/3846
 ExclusiveArch: %{ix86} x86_64
 
-%global __cmake_in_source_build 1
-
 %global use_autotools 0
 %global use_intermediate 0
 
@@ -25,18 +23,17 @@ ExclusiveArch: %{ix86} x86_64
 
 Name:          pioneer
 Summary:       A game of lonely space adventure
-Version:       20200203
-Release:       4%{date}%{shortcommit}%{?dist}
+Version:       20201222
+Release:       0.1.rc1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
 ## Pioneer's art, music and other assets (including Lua model scripts): CC-BY-SA
 License:       GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
 URL:           http://pioneerspacesim.net/
-Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}-rc1/%{name}-%{version}-rc1.tar.gz
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
-Patch0:        %{name}-bug4691.patch
 
 %if 0%{?use_autotools}
 BuildRequires: autoconf
@@ -129,10 +126,7 @@ Requires:  fontpackages-filesystem
 PionilliumText22L Medium font file based on Titillium.
 
 %prep
-%autosetup -n %{name}-%{version} -N
-%ifarch %{ix86}
-%autopatch -p1
-%endif
+%autosetup -n %{name}-%{version}-rc1
 
 ## Pioneer does not work with Lua 5.3.*
 ## We cannot unbundle internal Lua yet
@@ -153,12 +147,11 @@ PionilliumText22L Medium font file based on Titillium.
  PIONEER_DATA_DIR=%{_datadir}/%{name}
 %make_build V=1 OPTIMISE=""
 %else
-mkdir -p build && pushd build
-%cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
+mkdir -p build
+%cmake -S build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
        -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
-       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} ..
-%make_build V=1
-popd
+       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name}
+%cmake_build
 %endif
 
 ## Build documentation
@@ -170,7 +163,7 @@ doxygen
 %if 0%{?use_autotools}
 %make_install
 %else
-%make_install -C build
+%cmake_install
 %endif
 
 ## Remove rpaths
@@ -286,6 +279,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Tue Dec 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.1.rc1
+- Release 20201222-rc1
+
 * Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 20200203-4
 - Second attempt - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 - Enable cmake_in_source_build
