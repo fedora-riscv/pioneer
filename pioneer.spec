@@ -151,7 +151,7 @@ mkdir -p build
 %cmake -B build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
        -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
        -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name}
-%cmake_build
+%make_build -C build
 %endif
 
 ## Build documentation
@@ -163,7 +163,7 @@ doxygen
 %if 0%{?use_autotools}
 %make_install
 %else
-%cmake_install
+%make_install -C build
 %endif
 
 ## Remove rpaths
