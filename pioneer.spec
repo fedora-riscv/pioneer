@@ -24,7 +24,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20201222
-Release:       0.1.rc1%{date}%{shortcommit}%{?dist}
+Release:       0.2.rc1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -56,6 +56,8 @@ BuildRequires: pkgconfig(SDL2_image)
 BuildRequires: pkgconfig(glew)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
+BuildRequires: pkgconfig(fmt)
+BuildRequires: pkgconfig(liblz4)
 BuildRequires: assimp-devel >= 3.2
 BuildRequires: mesa-libGLU-devel
 BuildRequires: miniz-devel
@@ -137,6 +139,11 @@ PionilliumText22L Medium font file based on Titillium.
 #rm -f contrib/lua/lua.hpp
 #rm -f contrib/lua/luaconf.h
 #rm -f contrib/lua/lualib.h
+
+rm -rf contrib/fmt
+rm -rf contrib/glew
+rm -rf contrib/miniz
+rm -rf contrib/lz4
 
 %build
 %if 0%{?use_autotools}
@@ -279,6 +286,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Sun Dec 27 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.2.rc1
+- Remove some bundled libraries
+
 * Tue Dec 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.1.rc1
 - Release 20201222-rc1
 
