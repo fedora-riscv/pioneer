@@ -56,11 +56,11 @@ BuildRequires: pkgconfig(SDL2_image)
 BuildRequires: pkgconfig(glew)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
-BuildRequires: pkgconfig(fmt)
-BuildRequires: pkgconfig(liblz4)
+#BuildRequires: pkgconfig(fmt)
+#BuildRequires: pkgconfig(liblz4)
 BuildRequires: assimp-devel >= 3.2
 BuildRequires: mesa-libGLU-devel
-BuildRequires: miniz-devel
+#BuildRequires: miniz-devel
 BuildRequires: NaturalDocs
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
@@ -140,10 +140,10 @@ PionilliumText22L Medium font file based on Titillium.
 #rm -f contrib/lua/luaconf.h
 #rm -f contrib/lua/lualib.h
 
-rm -rf contrib/fmt
+#rm -rf contrib/fmt
 rm -rf contrib/glew
-rm -rf contrib/miniz
-rm -rf contrib/lz4
+#rm -rf contrib/miniz
+#rm -rf contrib/lz4
 
 %build
 %if 0%{?use_autotools}
@@ -156,8 +156,8 @@ rm -rf contrib/lz4
 %else
 mkdir -p build
 %cmake -B build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
-       -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
-       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name}
+       -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
+       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name}
 %make_build -C build
 %endif
 
@@ -173,9 +173,14 @@ doxygen
 %make_install -C build
 %endif
 
-## Remove rpaths
-chrpath -d %{buildroot}%{_bindir}/%{name}
-chrpath -d %{buildroot}%{_bindir}/modelcompiler
+## Use rpaths versus private libraries
+chrpath -r %{_libdir}/%{name} %{buildroot}%{_bindir}/%{name}
+chrpath -r %{_libdir}/%{name} %{buildroot}%{_bindir}/modelcompiler
+
+# Remove unused development files
+rm -rf %{buildroot}%{_includedir}
+rm -rf %{buildroot}%{_libdir}/pioneer/cmake
+rm -rf %{buildroot}%{_libdir}/pioneer/pkgconfig
 
 ## Install icons
 mkdir -p %{buildroot}%{_datadir}/icons/%{name}
@@ -246,6 +251,7 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %files
 %doc doxygen/html
 %{_bindir}/%{name}
+%{_libdir}/%{name}/
 %{_bindir}/modelcompiler
 %{_bindir}/savegamedump
 %{_datadir}/icons/hicolor/16x16/apps/*.png
@@ -287,7 +293,7 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 
 %changelog
 * Sun Dec 27 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.2.rc1
-- Remove some bundled libraries
+- Install bundled private libraries (rhbz#1911071)
 
 * Tue Dec 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.1.rc1
 - Release 20201222-rc1
