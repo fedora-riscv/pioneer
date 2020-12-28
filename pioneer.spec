@@ -30,7 +30,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20201222
-Release:       0.3.rc1%{date}%{shortcommit}%{?dist}
+Release:       0.4.rc1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -76,6 +76,8 @@ Requires: hicolor-icon-theme
 Requires: graphviz%{?_isa}
 
 Obsoletes: %{name}-doc < 0:20191117-3
+
+Provides: bundled(fmt) = 6.2.1
 
 # I prefer to install binary files manually
 Patch0:    %{name}-use_manual_installation.patch
@@ -308,6 +310,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Mon Dec 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.4.rc1
+- Bundle fmt-6.2.1 (rhbz#1911071)
+
 * Mon Dec 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.3.rc1
 - Change filtering method (rhbz#1911071)
 
