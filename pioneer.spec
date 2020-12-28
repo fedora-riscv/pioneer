@@ -2,8 +2,10 @@
 ExclusiveArch: %{ix86} x86_64
 
 # Filter private libraries
-%global __provides_exclude_from ^%{_libdir}/%{name}
-%global __requires_exclude_from ^%{_libdir}/%{name}
+%global _privatelibs libfmt[.]so.*
+%global __provides_exclude ^(%{_privatelibs})$
+%global __requires_exclude ^(%{_privatelibs})$
+#
 
 %global use_autotools 0
 %global use_intermediate 0
@@ -28,7 +30,7 @@ ExclusiveArch: %{ix86} x86_64
 Name:          pioneer
 Summary:       A game of lonely space adventure
 Version:       20201222
-Release:       0.2.rc1%{date}%{shortcommit}%{?dist}
+Release:       0.3.rc1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -306,6 +308,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Mon Dec 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.3.rc1
+- Change filtering method (rhbz#1911071)
+
 * Mon Dec 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.2.rc1
 - Install bundled private libraries (rhbz#1911071)
 
