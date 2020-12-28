@@ -1,6 +1,10 @@
 # https://github.com/pioneerspacesim/pioneer/issues/3846
 ExclusiveArch: %{ix86} x86_64
 
+# Filter private libraries
+%global __provides_exclude_from ^%{_libdir}/%{name}
+%global __requires_exclude_from ^%{_libdir}/%{name}
+
 %global use_autotools 0
 %global use_intermediate 0
 
@@ -71,6 +75,9 @@ Requires: graphviz%{?_isa}
 
 Obsoletes: %{name}-doc < 0:20191117-3
 
+# I prefer to install binary files manually
+Patch0:    %{name}-use_manual_installation.patch
+
 %description
 A space adventure game set in the Milky Way galaxy at the turn of
 the 31st century.
@@ -128,7 +135,9 @@ Requires:  fontpackages-filesystem
 PionilliumText22L Medium font file based on Titillium.
 
 %prep
-%autosetup -n %{name}-%{version}-rc1
+%autosetup -n %{name}-%{version}-rc1 -N
+
+%patch0 -p1 -b .manual
 
 ## Pioneer does not work with Lua 5.3.*
 ## We cannot unbundle internal Lua yet
@@ -157,8 +166,7 @@ rm -rf contrib/glew
 mkdir -p build
 %cmake -B build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
        -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
-       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name} \
-       -DCMAKE_SKIP_INSTALL_RPATH:BOOL=NO -DCMAKE_SKIP_RPATH:BOOL=NO
+       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name}
 %make_build -C build
 %endif
 
@@ -174,9 +182,14 @@ doxygen
 %make_install -C build
 %endif
 
+# Install binary files manually
+mkdir -p %{buildroot}%{_bindir}
+install -pm 755 build/pioneer %{buildroot}%{_bindir}/
+install -pm 755 build/modelcompiler %{buildroot}%{_bindir}/
+install -pm 755 build/savegamedump %{buildroot}%{_bindir}/
+	
 ## Use rpaths versus private libraries
-chrpath -r %{_libdir}/%{name} %{buildroot}%{_bindir}/%{name}
-chrpath -r %{_libdir}/%{name} %{buildroot}%{_bindir}/modelcompiler
+chrpath -r %{_libdir}/%{name} %{buildroot}%{_bindir}/*
 
 # Remove unused development files
 rm -rf %{buildroot}%{_includedir}
@@ -293,7 +306,7 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
-* Sun Dec 27 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.2.rc1
+* Mon Dec 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.2.rc1
 - Install bundled private libraries (rhbz#1911071)
 
 * Tue Dec 22 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.1.rc1

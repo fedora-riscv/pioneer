@@ -1,0 +1,12 @@
+--- a/CMakeLists.orig.txt	2020-12-22 09:57:13.000000000 +0100
++++ b/CMakeLists.txt	2020-12-28 11:59:28.426232101 +0100
+@@ -378,9 +378,6 @@
+ 	message(WARNING "No modelcompiler provided, models won't be optimized!")
+ endif(MODELCOMPILER)
+ 
+-install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
+-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+-)
+ install(DIRECTORY data/
+ 	DESTINATION ${PIONEER_DATA_DIR}
+ 	REGEX "/models" EXCLUDE
