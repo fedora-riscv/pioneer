@@ -41,6 +41,7 @@ Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}-rc1
 Source1:       %{name}.desktop
 Source2:       %{name}.appdata.xml
 
+BuildRequires: make
 %if 0%{?use_autotools}
 BuildRequires: autoconf
 BuildRequires: automake
