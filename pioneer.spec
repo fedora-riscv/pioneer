@@ -298,15 +298,15 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %doc AUTHORS.txt Changelog.txt Quickstart.txt README.md
 %{_datadir}/%{name}/
 
-%_font_pkg_name inpionata Inpionata.ttf
+%_font_pkg -n inpionata Inpionata.ttf
 %license licenses/SIL-1.1.txt
 %dir %{_fontdir}
 
-%_font_pkg_name orbiteer-bold Orbiteer-Bold.ttf
+%_font_pkg -n orbiteer-bold Orbiteer-Bold.ttf
 %license licenses/SIL-1.1.txt
 %dir %{_fontdir}
 
-%_font_pkg_name pionilliumtext22l-medium PionilliumText22L-Medium.ttf
+%_font_pkg -n pionilliumtext22l-medium PionilliumText22L-Medium.ttf
 %license licenses/SIL-1.1.txt
 %dir %{_fontdir}
 
