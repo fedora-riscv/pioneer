@@ -27,19 +27,19 @@ ExclusiveArch: %{ix86} x86_64
 # - MINIZ_NO_ARCHIVE_WRITING_APIS
 # - MINIZ_NO_ZLIB_COMPATIBLE_NAMES
 
-Name:          pioneer
-Summary:       A game of lonely space adventure
-Version:       20201222
-Release:       0.4.rc1%{date}%{shortcommit}%{?dist}
+Name: pioneer
+Summary: A game of lonely space adventure
+Version: 20201222
+Release: 0.4.rc1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
 ## Pioneer's art, music and other assets (including Lua model scripts): CC-BY-SA
-License:       GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
-URL:           http://pioneerspacesim.net/
-Source0:       https://github.com/pioneerspacesim/%{name}/archive/%{version}-rc1/%{name}-%{version}-rc1.tar.gz
-Source1:       %{name}.desktop
-Source2:       %{name}.appdata.xml
+License: GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
+URL: http://pioneerspacesim.net/
+Source0: https://github.com/pioneerspacesim/%{name}/archive/%{version}-rc1/%{name}-%{version}-rc1.tar.gz
+Source1: %{name}.desktop
+Source2: %{name}.appdata.xml
 
 BuildRequires: make
 %if 0%{?use_autotools}
@@ -81,7 +81,7 @@ Obsoletes: %{name}-doc < 0:20191117-3
 Provides: bundled(fmt) = 6.2.1
 
 # I prefer to install binary files manually
-Patch0:    %{name}-use_manual_installation.patch
+Patch0: %{name}-use_manual_installation.patch
 
 %description
 A space adventure game set in the Milky Way galaxy at the turn of
@@ -298,15 +298,15 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %doc AUTHORS.txt Changelog.txt Quickstart.txt README.md
 %{_datadir}/%{name}/
 
-%_font_pkg -n inpionata Inpionata.ttf
+%_font_pkg_name inpionata Inpionata.ttf
 %license licenses/SIL-1.1.txt
 %dir %{_fontdir}
 
-%_font_pkg -n orbiteer-bold Orbiteer-Bold.ttf
+%_font_pkg_name orbiteer-bold Orbiteer-Bold.ttf
 %license licenses/SIL-1.1.txt
 %dir %{_fontdir}
 
-%_font_pkg -n pionilliumtext22l-medium PionilliumText22L-Medium.ttf
+%_font_pkg_name pionilliumtext22l-medium PionilliumText22L-Medium.ttf
 %license licenses/SIL-1.1.txt
 %dir %{_fontdir}
 
