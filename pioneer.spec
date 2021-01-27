@@ -30,7 +30,7 @@ ExclusiveArch: %{ix86} x86_64
 Name: pioneer
 Summary: A game of lonely space adventure
 Version: 20201222
-Release: 0.4.rc1%{date}%{shortcommit}%{?dist}
+Release: 0.5.rc1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -311,6 +311,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 20201222-0.5.rc1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Mon Dec 28 2020 Antonio Trande <sagitter@fedoraproject.org> - 20201222-0.4.rc1
 - Bundle fmt-6.2.1 (rhbz#1911071)
 
