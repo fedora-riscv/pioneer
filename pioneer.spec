@@ -29,15 +29,15 @@ ExclusiveArch: %{ix86} x86_64
 
 Name: pioneer
 Summary: A game of lonely space adventure
-Version: 20201222
-Release: 0.5.rc1%{date}%{shortcommit}%{?dist}
+Version: 20210203
+Release: 1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
 ## Pioneer's art, music and other assets (including Lua model scripts): CC-BY-SA
 License: GPLv3 and CC-BY-SA and Bitstream Vera and Public Domain
 URL: http://pioneerspacesim.net/
-Source0: https://github.com/pioneerspacesim/%{name}/archive/%{version}-rc1/%{name}-%{version}-rc1.tar.gz
+Source0: https://github.com/pioneerspacesim/%{name}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1: %{name}.desktop
 Source2: %{name}.appdata.xml
 
@@ -140,7 +140,7 @@ Requires:  fontpackages-filesystem
 PionilliumText22L Medium font file based on Titillium.
 
 %prep
-%autosetup -n %{name}-%{version}-rc1 -N
+%autosetup -n %{name}-%{version} -N
 
 %patch0 -p1 -b .manual
 
@@ -311,6 +311,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Wed Feb 03 2021 Antonio Trande <sagitter@fedoraproject.org> - 20210203-1
+- Release 20210203
+
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 20201222-0.5.rc1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
