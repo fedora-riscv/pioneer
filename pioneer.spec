@@ -311,7 +311,7 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 
 %changelog
 * Fri Jul 23 2021 Antonio Trande <sagitter@fedoraproject.org> - 20210723-1
-- Release 20210203
+- Release 20210723
 
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 20210203-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
