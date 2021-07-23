@@ -2,9 +2,8 @@
 ExclusiveArch: %{ix86} x86_64
 
 # Filter private libraries
-%global _privatelibs libfmt[.]so.*
-%global __provides_exclude ^(%{_privatelibs})$
-%global __requires_exclude ^(%{_privatelibs})$
+%global __provides_exclude ^(%%(find %{buildroot}%{_libdir}/pioneer -name '*.so' | xargs -n1 basename | sort -u | paste -s -d '|' -))
+%global __requires_exclude ^(%%(find %{buildroot}%{_libdir}/pioneer -name '*.so' | xargs -n1 basename | sort -u | paste -s -d '|' -))
 #
 
 %global use_autotools 0
@@ -29,8 +28,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name: pioneer
 Summary: A game of lonely space adventure
-Version: 20210203
-Release: 2%{date}%{shortcommit}%{?dist}
+Version: 20210723
+Release: 1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -311,6 +310,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Fri Jul 23 2021 Antonio Trande <sagitter@fedoraproject.org> - 20210723-1
+- Release 20210203
+
 * Fri Jul 23 2021 Fedora Release Engineering <releng@fedoraproject.org> - 20210203-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
