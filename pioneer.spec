@@ -29,7 +29,7 @@ ExclusiveArch: %{ix86} x86_64
 Name: pioneer
 Summary: A game of lonely space adventure
 Version: 20210723
-Release: 1%{date}%{shortcommit}%{?dist}
+Release: 2%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -310,6 +310,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Sun Aug 01 2021 Rich Mattes <richmattes@gmail.com> - 20210723-2
+- Rebuild for assimp-5.0.1
+
 * Fri Jul 23 2021 Antonio Trande <sagitter@fedoraproject.org> - 20210723-1
 - Release 20210723
 
