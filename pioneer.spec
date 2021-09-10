@@ -29,7 +29,7 @@ ExclusiveArch: %{ix86} x86_64
 Name: pioneer
 Summary: A game of lonely space adventure
 Version: 20210723
-Release: 2%{date}%{shortcommit}%{?dist}
+Release: 3%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -171,7 +171,7 @@ mkdir -p build
 %cmake -B build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
        -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
        -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name}
-%make_build -C build
+%make_build -C build all build-data
 %endif
 
 ## Build documentation
@@ -310,6 +310,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Fri Sep 10 2021 Antonio Trande <sagitter@fedoraproject.org> - 20210723-3
+- Expand build options (rhbz#2002768, upstream bug #5138)
+
 * Sun Aug 01 2021 Rich Mattes <richmattes@gmail.com> - 20210723-2
 - Rebuild for assimp-5.0.1
 
