@@ -29,7 +29,7 @@ ExclusiveArch: %{ix86} x86_64
 Name: pioneer
 Summary: A game of lonely space adventure
 Version: 20210723
-Release: 3%{date}%{shortcommit}%{?dist}
+Release: 4%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -310,6 +310,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %dir %{_fontdir}
 
 %changelog
+* Fri Jan 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 20210723-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Fri Sep 10 2021 Antonio Trande <sagitter@fedoraproject.org> - 20210723-3
 - Expand build options (rhbz#2002768, upstream bug #5138)
 
