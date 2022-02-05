@@ -28,8 +28,8 @@ ExclusiveArch: %{ix86} x86_64
 
 Name: pioneer
 Summary: A game of lonely space adventure
-Version: 20210723
-Release: 4%{date}%{shortcommit}%{?dist}
+Version: 20220203
+Release: 1%{date}%{shortcommit}%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -93,50 +93,54 @@ hand at piracy, make your fortune trading between systems, or do missions for
 the various factions fighting for power, freedom or self-determination.
 
 ####################
-%global fonts font(dejavusans)
-%global fonts %{fonts} font(dejavusansmono)
-%global fonts %{fonts} font(wenquanyimicrohei)
 %package data
 Summary: Data files of %{name}
 BuildArch: noarch
-BuildRequires: fontconfig %{fonts}
-Requires: %{name}-inpionata-fonts = %{version}-%{release}
-Requires: %{name}-orbiteer-bold-fonts = %{version}-%{release}
-Requires: %{name}-pionilliumtext22l-medium-fonts = %{version}-%{release}
-Requires: %{fonts}
+BuildRequires: fontconfig
+BuildRequires: dejavu-sans-fonts
+BuildRequires: dejavu-sans-mono-fonts
+Requires: wqy-microhei-fonts
+Requires: dejavu-sans-fonts
+Requires: dejavu-sans-mono-fonts
+Requires: wqy-microhei-fonts
+Requires: %{name}-inpionata-fonts
+Requires: %{name}-orbiteer-bold-fonts
+Requires: %{name}-pionilliumtext22l-medium-fonts
 
 %description data
 Data files of %{name}.
 
+
+%global fontsummary Fonts used by Pioneer
 ####################
 %package inpionata-fonts
-Summary: Inpionata font file for %{name}
+Summary: %{fontsummary}
 BuildArch: noarch
 License:   OFL
 Requires:  fontpackages-filesystem
 
 %description inpionata-fonts
-Inpionata font file based on Inconsolata.
+%{fontsummary}.
 
 ####################
 %package orbiteer-bold-fonts
-Summary: Orbiteer Bold font file for %{name}
+Summary: %{fontsummary}
 BuildArch: noarch
 License:   OFL
 Requires:  fontpackages-filesystem
 
 %description orbiteer-bold-fonts
-Orbiteer Bold font file based on Orbitron.
+%{fontsummary}.
 
 ####################
 %package pionilliumtext22l-medium-fonts
-Summary: PionilliumText22L Medium font file for %{name}
+Summary: %{fontsummary}
 BuildArch: noarch
 License:   OFL
 Requires:  fontpackages-filesystem
 
 %description pionilliumtext22l-medium-fonts
-PionilliumText22L Medium font file based on Titillium.
+%{fontsummary}
 
 %prep
 %autosetup -n %{name}-%{version} -N
@@ -291,25 +295,20 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %{_metainfodir}/*.appdata.xml
 
 %files data
-%license licenses/GPL-3.txt licenses/CC-BY-SA-3.0.txt licenses/DejaVu-license.txt
+%license licenses/GPL-3.txt licenses/CC-BY-SA-3.0.txt licenses/DejaVu-license.txt licenses/SIL-1.1.txt
 # Image Use Policy - NASA Spitzer Space Telescope
 %license licenses/*.html
 %doc AUTHORS.txt Changelog.txt Quickstart.txt README.md
 %{_datadir}/%{name}/
 
-%_font_pkg -n inpionata Inpionata.ttf
-%license licenses/SIL-1.1.txt
-%dir %{_fontdir}
-
-%_font_pkg -n orbiteer-bold Orbiteer-Bold.ttf
-%license licenses/SIL-1.1.txt
-%dir %{_fontdir}
-
-%_font_pkg -n pionilliumtext22l-medium PionilliumText22L-Medium.ttf
-%license licenses/SIL-1.1.txt
-%dir %{_fontdir}
+%_font_pkg -n %{name}-inpionata Inpionata.ttf
+%_font_pkg -n %{name}-orbiteer-bold Orbiteer-Bold.ttf
+%_font_pkg -n %{name}-pionilliumtext22l-medium PionilliumText22L-Medium.ttf
 
 %changelog
+* Sat Feb 05 2022 Antonio Trande <sagitter@fedoraproject.org> - 20220203-1
+- Release 20220203
+
 * Fri Jan 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 20210723-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
