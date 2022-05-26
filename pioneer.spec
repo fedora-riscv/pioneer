@@ -59,7 +59,7 @@ BuildRequires: pkgconfig(vorbis)
 BuildRequires: pkgconfig(sigc++-2.0)
 BuildRequires: pkgconfig(libcurl)
 BuildRequires: pkgconfig(SDL2_image)
-BuildRequires: pkgconfig(glew)
+#BuildRequires: pkgconfig(glew)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
 #BuildRequires: pkgconfig(fmt)
@@ -158,7 +158,7 @@ Requires:  fontpackages-filesystem
 #rm -f contrib/lua/lualib.h
 
 #rm -rf contrib/fmt
-rm -rf contrib/glew
+#rm -rf contrib/glew
 #rm -rf contrib/miniz
 #rm -rf contrib/lz4
 
@@ -173,7 +173,7 @@ rm -rf contrib/glew
 %else
 mkdir -p build
 %cmake -B build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
-       -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
+       -DUSE_SYSTEM_LIBLUA:BOOL=OFF -DUSE_SYSTEM_LIBGLEW:BOOL=OFF \
        -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name}
 %make_build -C build all build-data
 %endif
@@ -306,8 +306,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %_font_pkg -n %{name}-pionilliumtext22l-medium PionilliumText22L-Medium.ttf
 
 %changelog
-* Mon May 23 2022 Antonio Trande <sagitter@fedoraproject.org> - 20220203-3
+* Thu May 26 2022 Antonio Trande <sagitter@fedoraproject.org> - 20220203-3
 - Rebuild
+- Use bundled GLEW
 
 * Thu Feb 10 2022 Orion Poplawski <orion@nwra.com> - 20220203-2
 - Rebuild for glew 2.2
