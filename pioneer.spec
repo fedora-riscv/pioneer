@@ -59,15 +59,15 @@ BuildRequires: pkgconfig(vorbis)
 BuildRequires: pkgconfig(sigc++-2.0)
 BuildRequires: pkgconfig(libcurl)
 BuildRequires: pkgconfig(SDL2_image)
-BuildRequires: pkgconfig(glew)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
+#BuildRequires: pkgconfig(glew)
 #BuildRequires: pkgconfig(lua)
-BuildRequires: pkgconfig(fmt)
-BuildRequires: pkgconfig(liblz4)
+#BuildRequires: pkgconfig(fmt)
+#BuildRequires: pkgconfig(liblz4)
+#BuildRequires: miniz-devel
 BuildRequires: assimp-devel >= 3.2
 BuildRequires: mesa-libGLU-devel
-BuildRequires: miniz-devel
 BuildRequires: NaturalDocs
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
@@ -154,10 +154,10 @@ Requires:  fontpackages-filesystem
 ## https://github.com/mpv-player/mpv/issues/5205
 #rm -rf contrib/lua
 
-rm -rf contrib/fmt
-rm -rf contrib/glew
-rm -rf contrib/miniz
-rm -rf contrib/lz4
+#rm -rf contrib/fmt
+#rm -rf contrib/glew
+#rm -rf contrib/miniz
+#rm -rf contrib/lz4
 
 %build
 %if 0%{?use_autotools}
@@ -171,8 +171,9 @@ rm -rf contrib/lz4
 mkdir -p build
 %cmake -B build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
        -DUSE_SYSTEM_LIBLUA:BOOL=OFF \
-       -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
-       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name}
+       -DUSE_SYSTEM_LIBGLEW:BOOL=OFF \
+       -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON \
+       -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name}
 %make_build -C build all build-data
 %endif
 
