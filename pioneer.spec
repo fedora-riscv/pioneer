@@ -62,6 +62,7 @@ BuildRequires: pkgconfig(SDL2_image)
 BuildRequires: pkgconfig(glew)
 BuildRequires: pkgconfig(freetype2)
 BuildRequires: pkgconfig(libpng)
+#BuildRequires: pkgconfig(lua)
 BuildRequires: pkgconfig(fmt)
 BuildRequires: pkgconfig(liblz4)
 BuildRequires: assimp-devel >= 3.2
@@ -147,15 +148,11 @@ Requires:  fontpackages-filesystem
 
 %patch0 -p1 -b .manual
 
-## Pioneer does not work with Lua 5.3.*
+## Pioneer does not work with Lua 5.4.*
 ## We cannot unbundle internal Lua yet
 ## See https://github.com/pioneerspacesim/pioneer/issues/3712
 ## https://github.com/mpv-player/mpv/issues/5205
-rm -f contrib/lua/lua.h
-rm -f contrib/lua/lauxlib.h
-rm -f contrib/lua/lua.hpp
-rm -f contrib/lua/luaconf.h
-rm -f contrib/lua/lualib.h
+#rm -rf contrib/lua
 
 rm -rf contrib/fmt
 rm -rf contrib/glew
@@ -173,7 +170,8 @@ rm -rf contrib/lz4
 %else
 mkdir -p build
 %cmake -B build -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
-       -DUSE_SYSTEM_LIBLUA:BOOL=ON -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
+       -DUSE_SYSTEM_LIBLUA:BOOL=OFF \
+       -DUSE_SYSTEM_LIBGLEW:BOOL=ON \
        -DPIONEER_DATA_DIR:PATH=%{_datadir}/%{name} -DFMT_INSTALL:BOOL=ON -DCMAKE_INSTALL_LIBDIR:PATH=%{_lib}/%{name}
 %make_build -C build all build-data
 %endif
