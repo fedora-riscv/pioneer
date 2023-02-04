@@ -1,6 +1,6 @@
 --- a/CMakeLists.orig.txt	2020-12-22 09:57:13.000000000 +0100
 +++ b/CMakeLists.txt	2020-12-28 11:59:28.426232101 +0100
-@@ -378,9 +378,6 @@
+@@ -394,9 +393,6 @@
  	message(WARNING "No modelcompiler provided, models won't be optimized!")
  endif(MODELCOMPILER)
  

@@ -1,0 +1,71 @@
+From 287596d62d870ebf19c59226a93e80ba852497d9 Mon Sep 17 00:00:00 2001
+From: Dmitry Marakasov <amdmi3@amdmi3.ru>
+Date: Fri, 3 Feb 2023 18:22:06 +0300
+Subject: [PATCH] Handle the case when size_t and unsigned int are the same
+ type
+
+Fixes #5527
+---
+ CMakeLists.txt        | 3 +++
+ buildopts.h.cmakein   | 1 +
+ src/lua/LuaPushPull.h | 5 +++++
+ 3 files changed, 9 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c5c43b2059..e24c311c66 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -71,6 +71,9 @@ if (HAS_FECLEAREXCEPT AND HAS_FEENABLEEXCEPT AND HAS_FEDISABLEEXCEPT)
+ 	set(HAS_FPE_OPS ON)
+ endif()
+ 
++include(CheckCXXSourceCompiles)
++check_cxx_source_compiles("#include <cstddef>\nvoid foo(size_t){}; void foo(unsigned int){};int main(){}" SIZE_T_AND_UNSIGNED_INT_ARE_DIFFERENT_TYPES)
++
+ if (NOT CMAKE_BUILD_TYPE)
+ 	set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
+ 		"Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel."
+diff --git a/buildopts.h.cmakein b/buildopts.h.cmakein
+index 850b26f65b..0a879b63fd 100644
+--- a/buildopts.h.cmakein
++++ b/buildopts.h.cmakein
+@@ -9,6 +9,7 @@
+ #cmakedefine01 WITH_OBJECTVIEWER
+ #cmakedefine01 WITH_DEVKEYS
+ #cmakedefine01 HAS_FPE_OPS
++#cmakedefine01 SIZE_T_AND_UNSIGNED_INT_ARE_DIFFERENT_TYPES
+ #cmakedefine REMOTE_LUA_REPL
+ 
+ #endif /* BUILDOPTS_H */
+diff --git a/src/lua/LuaPushPull.h b/src/lua/LuaPushPull.h
+index 852f99ffd8..4a6981d80c 100644
+--- a/src/lua/LuaPushPull.h
++++ b/src/lua/LuaPushPull.h
+@@ -5,6 +5,7 @@
+ #define _LUAPUSHPULL_H
+ 
+ #include "Lua.h"
++#include "buildopts.h"
+ #include <lua.hpp>
+ 
+ #include <cstddef>
+@@ -15,7 +16,9 @@ inline void pi_lua_generic_push(lua_State *l, bool value) { lua_pushboolean(l, v
+ inline void pi_lua_generic_push(lua_State *l, int value) { lua_pushinteger(l, value); }
+ inline void pi_lua_generic_push(lua_State *l, int64_t value) { lua_pushinteger(l, value); }
+ inline void pi_lua_generic_push(lua_State *l, unsigned int value) { lua_pushinteger(l, value); }
++#if SIZE_T_AND_UNSIGNED_INT_ARE_DIFFERENT_TYPES
+ inline void pi_lua_generic_push(lua_State *l, size_t value) { lua_pushinteger(l, value); }
++#endif
+ inline void pi_lua_generic_push(lua_State *l, double value) { lua_pushnumber(l, value); }
+ inline void pi_lua_generic_push(lua_State *l, const char *value) { lua_pushstring(l, value); }
+ inline void pi_lua_generic_push(lua_State *l, const std::string &value)
+@@ -32,7 +35,9 @@ inline void pi_lua_generic_pull(lua_State *l, int index, bool &out) { out = lua_
+ inline void pi_lua_generic_pull(lua_State *l, int index, int &out) { out = luaL_checkinteger(l, index); }
+ inline void pi_lua_generic_pull(lua_State *l, int index, int64_t &out) { out = luaL_checkinteger(l, index); }
+ inline void pi_lua_generic_pull(lua_State *l, int index, unsigned int &out) { out = luaL_checkunsigned(l, index); }
++#if SIZE_T_AND_UNSIGNED_INT_ARE_DIFFERENT_TYPES
+ inline void pi_lua_generic_pull(lua_State *l, int index, size_t &out) { out = luaL_checkunsigned(l, index); }
++#endif
+ inline void pi_lua_generic_pull(lua_State *l, int index, float &out) { out = luaL_checknumber(l, index); }
+ inline void pi_lua_generic_pull(lua_State *l, int index, double &out) { out = luaL_checknumber(l, index); }
+ inline void pi_lua_generic_pull(lua_State *l, int index, const char *&out) { out = luaL_checkstring(l, index); }
