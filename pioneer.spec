@@ -1,5 +1,6 @@
 # https://github.com/pioneerspacesim/pioneer/issues/3846
-ExclusiveArch: %{ix86} x86_64
+# Can be built on riscv64, but I don't know whether it works.
+ExclusiveArch: %{ix86} x86_64 riscv64
 
 # Filter private libraries
 %global __provides_exclude ^(%%(find %{buildroot}%{_libdir}/pioneer -name '*.so' | xargs -n1 basename | sort -u | paste -s -d '|' -))
@@ -29,7 +30,7 @@ ExclusiveArch: %{ix86} x86_64
 Name: pioneer
 Summary: A game of lonely space adventure
 Version: 20230203
-Release: 3%{date}%{shortcommit}%{?dist}
+Release: 3%{date}%{shortcommit}.rv64%{?dist}
 
 ## Main license: GPLv3
 ## Dejavu font license: Bitstream Vera and Public Domain
@@ -310,6 +311,9 @@ ln -sf $(fc-match -f "%{file}" "dejavusans") %{buildroot}%{_datadir}/%{name}/fon
 %_font_pkg -n %{name}-pionilliumtext22l-medium PionilliumText22L-Medium.ttf
 
 %changelog
+* Thu Aug 10 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 20230203-3.20230301gitcd91559.rv64
+- Add riscv64.
+
 * Tue Mar 21 2023 Antonio Trande <sagitter@fedoraproject.org> - 20230203-3.20230301gitcd91559
 - Bugfix build release (rhbz#2174394)
 
